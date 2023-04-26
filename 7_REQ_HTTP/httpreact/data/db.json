@@ -1,0 +1,39 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Camisa",
+      "price": 59.9
+    },
+    {
+      "id": 2,
+      "name": "Calça vermelha",
+      "price": 90
+    },
+    {
+      "id": 3,
+      "name": "Boné aba reta",
+      "price": 29.9
+    },
+    {
+      "name": "Tênis",
+      "price": "77",
+      "id": 4
+    },
+    {
+      "name": "Capa de chuva",
+      "price": "50.50",
+      "id": 5
+    },
+    {
+      "name": "Luva",
+      "price": "35",
+      "id": 6
+    },
+    {
+      "name": "Capacete",
+      "price": "150",
+      "id": 7
+    }
+  ]
+}
