@@ -1,16 +1,6 @@
 {
   "products": [
     {
-      "id": 1,
-      "name": "Camisa",
-      "price": 59.9
-    },
-    {
-      "id": 2,
-      "name": "Calça vermelha",
-      "price": 90
-    },
-    {
       "id": 3,
       "name": "Boné aba reta",
       "price": 29.9
@@ -21,11 +11,6 @@
       "id": 4
     },
     {
-      "name": "Capa de chuva",
-      "price": "50.50",
-      "id": 5
-    },
-    {
       "name": "Luva",
       "price": "35",
       "id": 6
@@ -34,6 +19,41 @@
       "name": "Capacete",
       "price": "150",
       "id": 7
+    },
+    {
+      "name": "Teclado",
+      "price": "110",
+      "id": 8
+    },
+    {
+      "name": "Cadeira",
+      "price": "200",
+      "id": 9
+    },
+    {
+      "name": "Mouse",
+      "price": "60",
+      "id": 12
+    },
+    {
+      "name": "Monitor",
+      "price": "500",
+      "id": 13
+    },
+    {
+      "name": "Mesa",
+      "price": "300",
+      "id": 14
+    },
+    {
+      "name": "Suporte microfone",
+      "price": "60",
+      "id": 15
+    },
+    {
+      "name": "Microfone",
+      "price": "100",
+      "id": 21
     }
   ]
 }
