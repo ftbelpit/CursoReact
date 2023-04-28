@@ -1,0 +1,5 @@
+npx create-react-app [nome do projeto] // cria um projeto
+npm install react-router-dom // cria as rotas dentro do projeto
+npm i json-server // cria um server json
+npm run server // inicia o server json
+npm start // inicia o projeto react

@@ -1,9 +1,3 @@
-/*
-npm i json-server
-npm run server
-npm start
-*/
-
 import './App.css';
 
 import { useState, useEffect } from "react"
