@@ -37,7 +37,6 @@ const CreatePost = () => {
       setFormError("Por favor, preencha todos os campos!")
     }
 
-
     if (formError) return
      
     insertDocument({
