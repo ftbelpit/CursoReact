@@ -104,7 +104,6 @@ const Profile = () => {
       title: editTitle,
       id: editId,
     }
-
     dispatch(updatePhoto(photoData))
 
     resetComponentMessage()
@@ -184,7 +183,7 @@ const Profile = () => {
       <div className="user-photos">
         <h2>Fotos publicadas:</h2>
         <div className="photos-container">
-          {photos && photos.map((photo) => (
+        {photos && photos.length > 0 && photos.map((photo) => (
             <div className="photo" key={photo._id}>
               {photo.image && (
                 <img 
