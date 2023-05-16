@@ -4,18 +4,15 @@ const router = express.Router()
 // Controller
 const { 
   insertCar, 
-  // deletePhoto, 
-  // getAllPhotos, 
-  // getUserPhotos, 
-  // getPhotoById, 
-  // updatePhoto, 
-  // likePhoto,
-  // commentPhoto,
-  // searchPhotos
+  deleteCar,
+  getAllCars, 
+  getUserCars, 
+  getCarById, 
+  updateCar
 } = require("../controllers/CarController")
 
 // Middlewares
-const { carInsertValidation } = require("../middlewares/carValidation")
+const { carInsertValidation, carUpdateValidation } = require("../middlewares/carValidation")
 const authGuard = require("../middlewares/authGuard")
 const validate = require ("../middlewares/handleValidation")
 // const { imageUpload } = require("../middlewares/imageUpload")
@@ -28,14 +25,10 @@ router.post(
   validate, 
   insertCar
 )
-
-// router.delete("/:id", authGuard, deletePhoto)
-// router.get("/", authGuard, getAllPhotos)
-// router.get("/user/:id", authGuard, getUserPhotos)
-// router.get("/search", authGuard, searchPhotos)
-// router.get("/:id", authGuard, getPhotoById)
-// router.put("/:id", authGuard, carUpdateValidation(), validate, updateCar)
-// router.put("/like/:id", authGuard, likePhoto)
-// router.put("/comment/:id", authGuard, commentValidation(), validate, commentPhoto)
+router.delete("/:id", authGuard, deleteCar)
+router.get("/", authGuard, getAllCars)
+router.get("/user/:id", authGuard, getUserCars)
+router.get("/:id", authGuard, getCarById)
+router.put("/:id", authGuard, carUpdateValidation(), validate, updateCar)
 
 module.exports = router

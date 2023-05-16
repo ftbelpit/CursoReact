@@ -5,6 +5,8 @@ const mongoose = require("mongoose")
 
 // Insert a car, with an user related to it
 const insertCar = async(req, res) => {
+  const {fabricante, modelo, ano} = req.body
+
   const reqUser = req.user
 
   const user = await User.findById(reqUser._id)
@@ -30,188 +32,122 @@ const insertCar = async(req, res) => {
 }
 
 // Remove a car from DB
-// const deletePhoto = async(req, res) => {
-//   const {id} = req.params 
+const deleteCar = async(req, res) => {
+  const {id} = req.params 
 
-//   const reqUser = req.user 
-//   try {
-//     const photo = await Photo.findById(new mongoose.Types.ObjectId(id))
+  const reqUser = req.user 
+  try {
+    const car = await Car.findById(new mongoose.Types.ObjectId(id))
 
-//     // Check if photo exists
-//     if(!photo) {
-//       res.status(404).json({ errors: ["Foto não encontrada!"] })
-//       return
-//     }
+    // Check if car exists
+    if(!car) {
+      res.status(404).json({ errors: ["Carro não encontrado!"] })
+      return
+    }
 
-//     // Check if photo belongs to user
-//     if(!photo.userId.equals(reqUser._id)) {
-//       res
-//         .status(422)
-//         .json({ 
-//           errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]
-//         })
-//     }
+    // Check if car belongs to user
+    if(!car.userId.equals(reqUser._id)) {
+      res
+        .status(422)
+        .json({ 
+          errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]
+        })
+    }
 
-//     await Photo.findByIdAndDelete(photo._id)
+    await Car.findByIdAndDelete(car._id)
 
-//     res
-//       .status(200)
-//       .json({ 
-//         id: photo._id, message: "Foto excluída com sucesso." 
-//       })
-//   } catch (error) {
-//       res.status(404).json({ errors: ["Foto não encontrada!"] })
-//       return
-//   }
-// }
+    res
+      .status(200)
+      .json({ 
+        id: car._id, message: "Carro excluído com sucesso." 
+      })
+  } catch (error) {
+      res.status(404).json({ errors: ["Carro não encontrado!"] })
+      return
+  }
+}
 
-// // Get all photos
-// const getAllPhotos = async(req, res) => {
-//   const photos = await Photo.find({})
-//     .sort([["createdAt", -1]])
-//     .exec()
+// // Get all cars
+const getAllCars = async(req, res) => {
+  const cars = await Car.find({})
+    .sort([["createdAt", -1]])
+    .exec()
 
-//   return res.status(200).json(photos)
-// }
+  return res.status(200).json(cars)
+}
 
-// const getUserPhotos = async(req, res) => {
-//   const {id} = req.params
+const getUserCars = async(req, res) => {
+  const {id} = req.params
 
-//   const photos = await Photo.find({ userId: id })
-//     .sort([["createdAt", -1]])
-//     .exec()
+  const cars = await Car.find({ userId: id })
+    .sort([["createdAt", -1]])
+    .exec()
 
-//     return res.status(200).json(photos)
-// }
+    return res.status(200).json(cars)
+}
 
-// // Get photo by id
-// const getPhotoById = async (req, res) => {
-//   const {id} = req.params
+// Get car by id
+const getCarById = async (req, res) => {
+  const {id} = req.params
 
-//   const photo = await Photo.findById(new mongoose.Types.ObjectId(id))
+  const car = await Car.findById(new mongoose.Types.ObjectId(id))
 
-//   // Check if photo exists
-//   if(!photo) {
-//     res.status(404).json({ errors: ["Foto não encontrada."]})
-//     return
-//   }
+  // Check if car exists
+  if(!car) {
+    res.status(404).json({ errors: ["Carro não encontrado."]})
+    return
+  }
 
-//   res.status(200).json(photo)
-// }
+  res.status(200).json(car)
+}
 
-// // Update a photo
-// const updatePhoto = async(req, res) => {
-//   const {id} = req.params
-//   const {title} = req.body
+// Update a car
+const updateCar = async(req, res) => {
+  const {id} = req.params
+  const {fabricante} = req.body
+  const {modelo} = req.body
+  const {ano} = req.body
 
-//   const reqUser = req.user
+  const reqUser = req.user
 
-//   const photo = await Photo.findById(id)
+  const car = await Car.findById(id)
 
-//   // Check if photo exists
-//   if(!photo) {
-//     res.status(404).json({errors: ["Foto não encontrada"]})
-//     return
-//   }
+  // Check if car exists
+  if(!car) {
+    res.status(404).json({errors: ["Carro não encontrado"]})
+    return
+  }
 
-//   // Check if photo belongs to user
-//   if(!photo.userId.equals(reqUser._id)) {
-//     res
-//       .status(422)
-//       .json({
-//         errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]
-//       })
-//     return
-//   }
+  // Check if car belongs to user
+  if(!car.userId.equals(reqUser._id)) {
+    res
+      .status(422)
+      .json({
+        errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]
+      })
+    return
+  }
 
-//   if(title) {
-//     photo.title = title
-//   }
+  if(fabricante) {
+    car.fabricante = fabricante
+  }
+  if(modelo) {
+    car.modelo = modelo
+  }
+  if(ano) {
+    car.ano = ano
+  }
 
-//   await photo.save()
+  await car.save()
 
-//   res.status(200).json({ photo, message: "Foto atualizada com sucesso!" })
-// }
-
-// // Like functionality
-// const likePhoto = async(req, res) => {
-//   const { id } = req.params
-  
-//   const reqUser = req.user
-
-//   const photo = await Photo.findById(id)
-
-//   // Check if photo exists
-//   if (!photo) {
-//     res.status(404).json({ errors: ["Foto não encontrada"] })
-//     return
-//   }
-
-//   // Check if user alredy liked the photo
-//   if (photo.likes.includes(reqUser._id)) {
-//     res.status(422).json({ errors: ["Você já curtiu a foto."] })
-//     return
-//   }
-
-//   // Put user id in likes array
-//   photo.likes.push(reqUser._id)
-  
-//   photo.save()
-  
-//   res
-//     .status(200)
-//     .json({ photoId: id, userId: reqUser._id, message: "A foto foi curtida."})
-// }
-
-// // Comment functionality
-// const commentPhoto = async(req, res) => {
-//   const {id} = req.params
-//   const {comment} = req.body
-
-//   const reqUser = req.user
-
-//   const user = await User.findById(reqUser._id)
-
-//   const photo = await Photo.findById(id)
-
-//   if (!photo) {
-//     res.status(404).json({ errors: ["Foto não encontrada"] })
-//     return
-//   }
-
-//   // Put comment in the array comments
-//   const userComment = {
-//     comment,
-//     userName: user.name,
-//     userImage: user.profileImage,
-//     userId: user._id
-//   }
-
-//   photo.comments.push(userComment)
-
-//   await photo.save()
-
-//   res.status(200).json({
-//     comment: userComment,
-//     message: "O comentário foi adicionado com sucesso!",
-//   })
-// }
-
-// // Search photos by title
-// const searchPhotos = async(req, res) => {
-//   const {q} = req.query
-//   const photos = await Photo.find({title: new RegExp(q, "i")}).exec()
-//   res.status(200).json(photos)
-// }
+  res.status(200).json({ car, message: "Carro atualizado com sucesso!" })
+}
 
 module.exports = {
   insertCar,
-  // deletePhoto,
-  // getAllPhotos,
-  // getUserPhotos,
-  // getPhotoById,
-  // updatePhoto,
-  // likePhoto,
-  // commentPhoto,
-  // searchPhotos
+  deleteCar,
+  getAllCars,
+  getUserCars,
+  getCarById,
+  updateCar
 }
