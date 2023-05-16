@@ -5,7 +5,7 @@ import profile from "../../assets/perfil-de-usuario.png"
 import { useSelector } from "react-redux"
 
 const Home = () => {
-  const { loading } = useSelector((state) => state.photo)
+  const { loading } = useSelector((state) => state.car)
 
   if(loading) {
     return <p>Carregando...</p>
