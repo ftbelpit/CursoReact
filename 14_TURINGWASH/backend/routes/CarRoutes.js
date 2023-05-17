@@ -1,6 +1,8 @@
 const express = require ("express")
 const router = express.Router()
 
+router.use(express.json(__dirname + '/src'));
+
 // Controller
 const { 
   insertCar, 
@@ -15,7 +17,6 @@ const {
 const { carInsertValidation, carUpdateValidation } = require("../middlewares/carValidation")
 const authGuard = require("../middlewares/authGuard")
 const validate = require ("../middlewares/handleValidation")
-// const { imageUpload } = require("../middlewares/imageUpload")
 
 // Routes 
 router.post(
@@ -25,6 +26,7 @@ router.post(
   validate, 
   insertCar
 )
+
 router.delete("/:id", authGuard, deleteCar)
 router.get("/", authGuard, getAllCars)
 router.get("/user/:id", authGuard, getUserCars)

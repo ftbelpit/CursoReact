@@ -7,7 +7,6 @@ import Message from "../../components/Message"
 import { Link } from "react-router-dom"
 import { BsFillEyeFill, BsPencilFill, BsXLg } from "react-icons/bs";
 
-
 // hooks
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux"
@@ -37,26 +36,27 @@ const AddCar = () => {
   const { 
     cars, 
     loading: loadingCar, 
-    error: errorCar, 
-    message: messageCar 
+    message: messageCar,
+    error: errorCar
   } = useSelector((state) => state.car)
  
-  const [fabricante, setFabricante] = useState('');
-  const [modelo, setModelo] = useState('');
-  const [ano, setAno] = useState('');
+  const [fabricante, setFabricante] = useState("");
+  const [modelo, setModelo] = useState("");
+  const [ano, setAno] = useState("");
 
   // const [editId, setEditId] = useState()
   // const [editFabricante, setEditFabricante] = useState('');
   // const [editModelo, setEditModelo] = useState('');
   // const [editAno, setEditAno] = useState('');
 
+  // new car form and edit form refs
   const newCarForm = useRef();
   // const editCarForm = useRef();
 
-  // useEffect(() => {
-  //   dispatch(getUserDetails(id))
-  //   dispatch(getUserCars(id))
-  // }, [dispatch, id])
+  useEffect(() => {
+    dispatch(getUserDetails(id))
+    // dispatch(getUserCars(id))
+  }, [dispatch, id])
 
   resetMessage()
 
@@ -143,46 +143,42 @@ const AddCar = () => {
           <div ref={newCarForm}>
             <form id="carForm" onSubmit={submitHandle}>
               <div className="data-card">
-                <label htmlFor="fabricante">Fabricante</label>
+                <label>Fabricante</label>
                 <input
                   type="text"
-                  name="fabricante"
-                  id="fabricante"
                   placeholder="Insira um fabricante"
                   onChange={(e) => setFabricante(e.target.value)}
-                  value={fabricante}
+                  value={fabricante || ""}
                 />
               </div>
               <div className="data-card">
-                <label htmlFor="modelo">Modelo</label>
+                <label>Modelo</label>
                 <input
                   type="text"
-                  name="modelo"
-                  id="modelo"
                   placeholder="Insira um modelo"
                   onChange={(e) => setModelo(e.target.value)}
-                  value={modelo}
+                  value={modelo || ""}
                 />
               </div>
               <div className="data-card-ano">
-                <label htmlFor="ano">Ano</label>
+                <label>Ano</label>
                 <input
                   type="text"
-                  name="ano"
-                  id="ano"
                   placeholder="Insira um ano"
                   onChange={(e) => setAno(e.target.value)}
-                  value={ano}
+                  value={ano || ""}
                 />
               </div>
               <div className="add-button">
-              {!loadingCar && <button type="submit">Adicionar carro</button>}
+              {!loadingCar && <input type="submit" value="Cadastrar" />}
               {loadingCar && (
-                <button type="submit" disabled>Aguarde...</button>
+                <input type="submit" disabled value="Aguarde..." />              
               )}
               </div>
             </form>
           </div>
+          {errorCar && <Message msg={errorCar} type="error"/>}
+          {messageCar && <Message msg={messageCar} type="success"/>}
         </>
       )}     
     </div>

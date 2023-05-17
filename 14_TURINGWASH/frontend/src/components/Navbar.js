@@ -1,10 +1,10 @@
 import "./Navbar.css"
 
 // Components 
-import {NavLink, Link, Navigate} from "react-router-dom"
+import {NavLink, Link} from "react-router-dom"
 
 // Hooks
-import { useState } from "react"
+// import { useState } from "react"
 import { useAuth } from "../hooks/useAuth"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
@@ -16,7 +16,7 @@ const Navbar = () => {
   const { auth } = useAuth()
   const { user } = useSelector((state) => state.auth) 
 
-  const [query, setQuery] = useState("")
+  // const [query, setQuery] = useState("")
 
   const navigate =  useNavigate()
 
@@ -38,13 +38,13 @@ const Navbar = () => {
           <>
             {user && (
               <li>
-                <NavLink to={`/users/${user._id}`}>
+                <NavLink to={`/cars`}>
                   <span>Meus carros</span>
                 </NavLink>
               </li>
             )}
             <li>
-              <NavLink to="/profile">
+              <NavLink to="/mywashs">
                 <span>Minhas lavagens</span>
               </NavLink>
             </li>

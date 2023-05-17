@@ -1,4 +1,4 @@
-import "./Profile.css"
+import "./MyCars.css"
 
 // components
 import { Link } from "react-router-dom"
@@ -6,12 +6,9 @@ import { Link } from "react-router-dom"
 // hooks
 import { useSelector } from "react-redux";
 
-
 // redux
 
-
-
-const Profile = () => {
+const MyCars = () => {
 
   const { user } = useSelector((state) => state.auth);
 
@@ -22,8 +19,8 @@ const Profile = () => {
         </div>
         <div className="profile-car"> 
           <div>
-            <span className="fabricante">Nissan</span> <span className="modelo">Kicks</span>
-            <p className="ano">2018</p>
+            <span className="fabricante"></span> <span className="modelo"></span>
+            <p className="ano"></p>
           </div>
           <button className="delete-button">Excluir carro</button>
         </div>        
@@ -35,4 +32,4 @@ const Profile = () => {
     </div>
   )
 }
-export default Profile
+export default MyCars
