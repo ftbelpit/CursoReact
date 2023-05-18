@@ -32,9 +32,9 @@ function App() {
       <Navbar/>
         <div className="container">
         <Routes>
-          <Route path="/" element={auth ? <Home /> : <Navigate to="/login" />} />
-          <Route path="/washs" element={auth ? <MyWashs /> : <Navigate to="/login" />}/>
-          <Route path="/cars" element={auth ? <MyCars /> : <Navigate to="/login" />}/>
+          <Route path="/:id" element={auth ? <Home /> : <Navigate to="/login" />} />
+          <Route path="/washs/:id" element={auth ? <MyWashs /> : <Navigate to="/login" />}/>
+          <Route path="/cars/:id" element={auth ? <MyCars /> : <Navigate to="/login" />}/>
           <Route path="/addcar/:id" element={auth ? <AddCar /> : <Navigate to="/login" />} />
           <Route path="/login" element={!auth ? <Login /> : <Navigate to="/" />} />
           <Route path="/register" element={!auth ? <Register /> : <Navigate to="/" />}/>

@@ -47,7 +47,7 @@ const deleteCar = async(req, res) => {
 
     // Check if car belongs to user
     if(!car.userId.equals(reqUser._id)) {
-      res
+      return res
         .status(422)
         .json({ 
           errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]

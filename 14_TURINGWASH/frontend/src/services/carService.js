@@ -1,7 +1,7 @@
 import { api, requestConfig } from "../utils/config";
 
 // Publish an user car
-const publishCar = async(data, token) => {
+const insertCar = async(data, token) => {
   const config = requestConfig("POST", data, token, true)
 
   try {
@@ -91,7 +91,7 @@ const getCars = async(token) => {
 }
 
 const carService = {
-  publishCar,
+  insertCar: insertCar,
   getUserCars,
   deleteCar,
   updateCar,

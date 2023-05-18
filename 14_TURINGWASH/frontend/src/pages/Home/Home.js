@@ -2,10 +2,32 @@ import "./Home.css"
 
 import profile from "../../assets/perfil-de-usuario.png"
 
+import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+
 import { useSelector } from "react-redux"
+import { getUserCars, chooseCar } from "../../slices/carSlice"
+import { Link, useParams } from "react-router-dom"
 
 const Home = () => {
-  const { loading } = useSelector((state) => state.car)
+  const [selectedCar, setSelectedCar] = useState(null);
+
+  const { cars, loading } = useSelector((state) => state.car)
+
+  const dispatch = useDispatch()
+
+  const { id } = useParams()
+
+  useEffect(() => {
+    dispatch(getUserCars(id))
+
+  }, [dispatch, id])
+
+  const handleSelectCar = (e) => {
+    const carId = e.target.value
+    setSelectedCar(carId)
+    dispatch(chooseCar(carId));
+  };
 
   if(loading) {
     return <p>Carregando...</p>
@@ -19,8 +41,15 @@ const Home = () => {
         <div className="home-options">
         <div>
           <span>Lavar:</span>
-          <select>
-            <option>Nissan Kicks</option>
+          <select className="select-car" onChange={handleSelectCar} value={selectedCar}>
+            <option value="" disabled selected>Selecione um carro</option>
+          {cars && cars.length > 0 && cars.map((car) => (
+              <option key={car._id} value={car._id} className="select-button">
+              <Link to={`/washs/${car._id}`}>
+                {car.fabricante} {car.modelo}
+              </Link>
+              </option>
+          ))}
           </select>
         </div>
         <div>
@@ -42,11 +71,12 @@ const Home = () => {
           </div>            
           <div className="home-assets-buttons">
             <button className="button-assessment">Ver avaliações</button>
-            <button type="submit" className="button-wash">Lavar meu carro</button>   
+            <Link to={`/washs/${selectedCar}`}>
+              <button type="submit" className="button-wash">Lavar meu carro</button>   
+            </Link>
           </div> 
         </div>  
       </div>
-      
     </div>
   )
 }

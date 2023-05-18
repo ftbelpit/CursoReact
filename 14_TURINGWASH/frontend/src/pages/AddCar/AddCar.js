@@ -1,11 +1,11 @@
 import "./AddCar.css"
 
-import { uploads } from "../../utils/config";
+// import { uploads } from "../../utils/config";
 
 // components
 import Message from "../../components/Message"
-import { Link } from "react-router-dom"
-import { BsFillEyeFill, BsPencilFill, BsXLg } from "react-icons/bs";
+// import { Link } from "react-router-dom"
+// import { BsFillEyeFill, BsPencilFill, BsXLg } from "react-icons/bs";
 
 // hooks
 import { useEffect, useState, useRef } from "react";
@@ -17,7 +17,7 @@ import { useResetComponentMessage } from "../../hooks/useResetComponentMessage";
 import { getUserDetails } from "../../slices/userSlice";
 import { 
   // getUserCars, 
-  publishCar, 
+  insertCar, 
   // resetMessage, 
   // deleteCar, 
   // updateCar 
@@ -31,10 +31,13 @@ const AddCar = () => {
 
   const resetMessage = useResetComponentMessage(dispatch)
 
-  const { user, loading } = useSelector((state) => state.user)
+  const { 
+    // user, 
+    loading 
+  } = useSelector((state) => state.user)
   const { user: userAuth } = useSelector((state) => state.auth)
   const { 
-    cars, 
+    // cars, 
     loading: loadingCar, 
     message: messageCar,
     error: errorCar
@@ -77,7 +80,7 @@ const AddCar = () => {
 
     formData.append("car", carFormData)
 
-    dispatch(publishCar(formData))
+    dispatch(insertCar(formData))
 
     setFabricante("")
     setModelo("")
@@ -92,10 +95,10 @@ const AddCar = () => {
   //   resetMessage()
   // }
 
-  const hideOrShowForms = () => {
-    newCarForm.current.classList.toggle("hide")
-    // editCarForm.current.classList.toggle("hide")
-  }
+  // const hideOrShowForms = () => {
+  //   newCarForm.current.classList.toggle("hide")
+  //   // editCarForm.current.classList.toggle("hide")
+  // }
 
   // const handleEdit = (car) => {
   //   if (editCarForm.current.classList.contains("hide")) {

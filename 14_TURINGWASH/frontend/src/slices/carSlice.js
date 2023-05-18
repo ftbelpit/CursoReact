@@ -7,16 +7,33 @@ const initialState = {
   error: false,
   success: false,
   loading: false,
-  message: null
+  message: null,
+  selectedCar: null
 }
 
-// Publish user car
-export const publishCar = createAsyncThunk(
-  "car/publish",
-  async(car, thunkAPI) => {
+export const chooseCar = createAsyncThunk(
+  "car/choose",
+  async (carId, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+
+    const data = await carService.getCar(carId, token);
+
+    // Check for errors
+    if (data.errors) {
+      return thunkAPI.rejectWithValue(data.errors[0]);
+    }
+
+    return data;
+  }
+);
+
+// Insert user car
+export const insertCar = createAsyncThunk(
+  "car/insert",
+  async(id, thunkAPI) => {
     const token = thunkAPI.getState().auth.user.token
 
-    const data = await carService.publishCar(car, token)
+    const data = await carService.insertCar(id, token)
 
     // Check for errors
     if(data.errors) {
@@ -27,101 +44,104 @@ export const publishCar = createAsyncThunk(
   }
 )
 
-// // Get user cars
-// export const getUserCars = createAsyncThunk(
-//   "car/usercars",
-//   async(id, thunkAPI) => {
-//     const token = thunkAPI.getState().auth.user.token
+// Get user cars
+export const getUserCars = createAsyncThunk(
+  "car/usercars",
+  async(id, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token
 
-//     const data = await carService.getUserCars(id, token)
+    const data = await carService.getUserCars(id, token)
 
-//     return data
-//   }
-// )
+    return data
+  }
+)
 
-// // Delete a car 
-// export const deleteCar = createAsyncThunk(
-//   "car/delete",
-//   async(id, thunkAPI) => {
-//     const token = thunkAPI.getState().auth.user.token
+// Delete a car 
+export const deleteCar = createAsyncThunk(
+  "car/delete",
+  async(id, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token
 
-//     const data = await carService.deleteCar(id, token)
+    const data = await carService.deleteCar(id, token)
 
-//     // Check for errors
-//     if(data.errors) {
-//       return thunkAPI.rejectWithValue(data.errors[0])
-//     }
+    // Check for errors
+    if(data.errors) {
+      return thunkAPI.rejectWithValue(data.errors[0])
+    }
 
-//     return data
-//   }
-// )
+    return data
+  }
+)
 
-// // Update a car
-// export const updateCar = createAsyncThunk(
-//   "car/update",
-//   async (carData, thunkAPI) => {
-//     const token = thunkAPI.getState().auth.user.token
+// Update a car
+export const updateCar = createAsyncThunk(
+  "car/update",
+  async (carData, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token
 
-//     const data = await carService.updateCar(
-//       { fabricante: carData.fabricante}, 
-//       { modelo: carData.modelo}, 
-//       { ano: carData.ano}, 
-//       carData.id, 
-//       token
-//     )
+    const data = await carService.updateCar(
+      { fabricante: carData.fabricante}, 
+      { modelo: carData.modelo}, 
+      { ano: carData.ano}, 
+      carData.id, 
+      token
+    )
 
-//     // Check for errors
-//     if(data.errors) {
-//       return thunkAPI.rejectWithValue(data.errors[0])
-//     }
+    // Check for errors
+    if(data.errors) {
+      return thunkAPI.rejectWithValue(data.errors[0])
+    }
 
-//     return data
-//   }
-// )
+    return data
+  }
+)
 
-// // get car by id
-// export const getCar = createAsyncThunk(
-//   "car/getcar",
-//   async(id, thunkAPI) => {
-//     const token = thunkAPI.getState().auth.user.token
+// get car by id
+export const getCar = createAsyncThunk(
+  "car/getcar",
+  async(id, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token
 
-//     const data = await carService.getCar(id, token)
+    const data = await carService.getCar(id, token)
 
-//     // Check for errors
-//     if(data.errors) {
-//       return thunkAPI.rejectWithValue(data.errors[0])
-//     }
+    // Check for errors
+    if(data.errors) {
+      return thunkAPI.rejectWithValue(data.errors[0])
+    }
 
-//     return data
-//   }
-// )
+    return data
+  }
+)
 
-// // get all cars
-// export const getCars = createAsyncThunk(
-//   "car/getall", 
-//   async(_, thunkAPI) => {
-//     const token = thunkAPI.getState().auth.user.token
+// get all cars
+export const getCars = createAsyncThunk(
+  "car/getall", 
+  async(_, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token
 
-//     const data = await carService.getCars(token)
+    const data = await carService.getCars(token)
 
-//     return data 
-// })
+    return data 
+})
 
 export const carSlice = createSlice({
   name: "car",
   initialState,
   reducers: {
     resetMessage: (state) => {
-      state.message = null
+      state.message = null;
     },
   },
   extraReducers: (builder) => {
   builder
-    .addCase(publishCar.pending, (state) => {
+    .addCase(chooseCar.fulfilled, (state, action) => {
+      state.selectedCar = action.payload;
+    })
+    .addCase(insertCar.pending, (state) => {
       state.loading = true
       state.error = false
     })
-    .addCase(publishCar.fulfilled, (state, action) => {
+    .addCase(insertCar.fulfilled, (state, action) => {
       state.loading = false
       state.success = true
       state.error = null
@@ -129,84 +149,89 @@ export const carSlice = createSlice({
       state.cars.unshift(state.car)
       state.message = "Carro publicado com sucesso!" 
     })
-    .addCase(publishCar.rejected, (state, action) => {
+    .addCase(insertCar.rejected, (state, action) => {
       state.loading = false
       state.error = action.payload
       state.car = {}
     })
-    // .addCase(getUserCars.pending, (state) => {
-    //   state.loading = true
-    //   state.error = false
-    // })
-    // .addCase(getUserCars.fulfilled, (state, action) => {
-    //   state.loading = false
-    //   state.success = true
-    //   state.error = null
-    //   state.cars = action.payload 
-    // })
-    // .addCase(deleteCar.pending, (state) => {
-    //   state.loading = true
-    //   state.error = false
-    // })
-    // .addCase(deleteCar.fulfilled, (state, action) => {
-    //   state.loading = false
-    //   state.success = true
-    //   state.error = null
+    .addCase(getUserCars.pending, (state) => {
+      state.loading = true
+      state.error = false
+    })
+    .addCase(getUserCars.fulfilled, (state, action) => {
+      state.loading = false
+      state.success = true
+      state.error = null
+      state.cars = action.payload 
+    })
+    .addCase(deleteCar.pending, (state) => {
+      state.loading = true
+      state.error = false
+    })
+    .addCase(deleteCar.fulfilled, (state, action) => {
+      state.loading = false
+      state.success = true
+      state.error = null
 
-    //   state.cars = state.cars.filter((car) => {
-    //     return car._id !== action.payload.id
-    //   })
+      state.cars = state.cars.filter((car) => {
+        return car._id !== action.payload.id
+      })
 
-    //   state.message = action.payload.message
+      state.message = action.payload.message
+    })
+    .addCase(deleteCar.rejected, (state, action) => {
+      state.loading = false
+      state.error = action.payload
+      state.car = {}
+    })
+    .addCase(updateCar.pending, (state) => {
+      state.loading = true
+      state.error = false
+    })
+    .addCase(updateCar.fulfilled, (state, action) => {
+      state.loading = false
+      state.success = true
+      state.error = null
+
+      state.cars.map((car) => {
+        if(car._id === action.payload.car._id) {
+          return {
+            fabricante: action.payload.car.title,
+            modelo: action.payload.car.modelo,
+            ano: action.payload.car.ano
+          };          
+        }
+        return car  
+      })
+      state.message = action.payload.message
  
-    // })
-    // .addCase(updateCar.pending, (state) => {
-    //   state.loading = true
-    //   state.error = false
-    // })
-    // .addCase(updateCar.fulfilled, (state, action) => {
-    //   state.loading = false
-    //   state.success = true
-    //   state.error = null
+    })
+    .addCase(updateCar.rejected, (state, action) => {
+      state.loading = false
+      state.error = action.payload
+      state.car = {}
+    })
+    .addCase(getCar.pending, (state) => {
+      state.loading = true
+      state.error = false
+    })
+    .addCase(getCar.fulfilled, (state, action) => {
+      state.loading = false
+      state.success = true
+      state.error = null
+      state.car = action.payload 
+    })
+    .addCase(getCars.pending, (state) => {
+      state.loading = true
+      state.error = false
+    })
+    .addCase(getCars.fulfilled, (state, action) => {
+      state.loading = false
+      state.success = true
+      state.error = null
+      state.cars = action.payload 
+    })
 
-    //   state.cars.map((car) => {
-    //     if(car._id === action.payload.car._id) {
-    //       return {
-    //         fabricante: action.payload.car.title,
-    //         modelo: action.payload.car.modelo,
-    //         ano: action.payload.car.ano
-    //       };          
-    //     }
-    //     return car  
-    //   })
-    //   state.message = action.payload.message
- 
-    // })
-    // .addCase(updateCar.rejected, (state, action) => {
-    //   state.loading = false
-    //   state.error = action.payload
-    //   state.car = {}
-    // })
-    // .addCase(getCar.pending, (state) => {
-    //   state.loading = true
-    //   state.error = false
-    // })
-    // .addCase(getCar.fulfilled, (state, action) => {
-    //   state.loading = false
-    //   state.success = true
-    //   state.error = null
-    //   state.car = action.payload 
-    // })
-    // .addCase(getCars.pending, (state) => {
-    //   state.loading = true
-    //   state.error = false
-    // })
-    // .addCase(getCars.fulfilled, (state, action) => {
-    //   state.loading = false
-    //   state.success = true
-    //   state.error = null
-    //   state.cars = action.payload 
-    // })
   }
 })
 

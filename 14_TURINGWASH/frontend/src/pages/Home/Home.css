@@ -91,3 +91,7 @@
   height: 25px;
   border-radius: 5px;
 }
+
+.select-car {
+  text-transform: capitalize;
+}

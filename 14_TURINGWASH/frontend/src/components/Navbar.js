@@ -31,23 +31,24 @@ const Navbar = () => {
 
   return (
     <nav id="nav">
-      <Link to="/">TuringWash</Link>
-
+      <Link to={`${user._id}`}>TuringWash</Link>
       <ul id="nav-links">
         {auth ? (
           <>
             {user && (
               <li>
-                <NavLink to={`/cars`}>
+                <NavLink to={`/cars/${user._id}`}>
                   <span>Meus carros</span>
                 </NavLink>
               </li>
             )}
-            <li>
-              <NavLink to="/mywashs">
-                <span>Minhas lavagens</span>
-              </NavLink>
-            </li>
+            {user && (
+              <li>
+                <NavLink to={`/washs/${user._id}`}>
+                  <span>Minhas lavagens</span>
+                </NavLink>
+              </li>
+            )}
             <li>
               <span onClick={handleLogout}>Sair</span>
             </li>
