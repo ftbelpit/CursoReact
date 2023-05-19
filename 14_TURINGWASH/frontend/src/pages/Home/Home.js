@@ -10,7 +10,7 @@ import { getUserCars, chooseCar } from "../../slices/carSlice"
 import { Link, useParams } from "react-router-dom"
 
 const Home = () => {
-  const [selectedCar, setSelectedCar] = useState(null);
+  const [selectedCar, setSelectedCar] = useState();
 
   const { cars, loading } = useSelector((state) => state.car)
 
@@ -42,12 +42,10 @@ const Home = () => {
         <div>
           <span>Lavar:</span>
           <select className="select-car" onChange={handleSelectCar} value={selectedCar}>
-            <option value="" disabled selected>Selecione um carro</option>
+            <option>Selecione um carro</option>
           {cars && cars.length > 0 && cars.map((car) => (
               <option key={car._id} value={car._id} className="select-button">
-              <Link to={`/washs/${car._id}`}>
                 {car.fabricante} {car.modelo}
-              </Link>
               </option>
           ))}
           </select>

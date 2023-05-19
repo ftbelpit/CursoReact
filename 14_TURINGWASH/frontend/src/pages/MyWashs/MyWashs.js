@@ -9,7 +9,7 @@ const MyWashs = () => {
   return (
     <div className="wash-list">
       <div className="profile-title">
-        <h2>Meus Carros</h2>
+        <h2>Minhas lavagens</h2>
       </div>
       {selectedCar && (
         <div className="wash-card">
@@ -24,7 +24,6 @@ const MyWashs = () => {
                 {selectedCar.modelo}{" "}
                 {selectedCar.ano}
               </span>
-            
           </div>
           <div className="wash-price-date">
             <span className="wash-price">R$ 75</span>

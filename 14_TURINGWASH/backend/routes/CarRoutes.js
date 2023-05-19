@@ -17,14 +17,7 @@ const authGuard = require("../middlewares/authGuard")
 const validate = require ("../middlewares/handleValidation")
 
 // Routes 
-router.post(
-  "/", 
-  authGuard, 
-  carInsertValidation(), 
-  validate, 
-  insertCar
-)
-
+router.post("/", authGuard, carInsertValidation(), validate, insertCar)
 router.delete("/:id", authGuard, deleteCar)
 router.get("/", authGuard, getAllCars)
 router.get("/user/:id", authGuard, getUserCars)

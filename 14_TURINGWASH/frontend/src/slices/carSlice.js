@@ -30,10 +30,10 @@ export const chooseCar = createAsyncThunk(
 // Insert user car
 export const insertCar = createAsyncThunk(
   "car/insert",
-  async(id, thunkAPI) => {
+  async(car, thunkAPI) => {
     const token = thunkAPI.getState().auth.user.token
 
-    const data = await carService.insertCar(id, token)
+    const data = await carService.insertCar(car, token)
 
     // Check for errors
     if(data.errors) {
@@ -196,7 +196,7 @@ export const carSlice = createSlice({
       state.cars.map((car) => {
         if(car._id === action.payload.car._id) {
           return {
-            fabricante: action.payload.car.title,
+            fabricante: action.payload.car.fabricante,
             modelo: action.payload.car.modelo,
             ano: action.payload.car.ano
           };          

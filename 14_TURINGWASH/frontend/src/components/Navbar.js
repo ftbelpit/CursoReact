@@ -14,8 +14,7 @@ import { logout, reset } from "../slices/authSlice"
 
 const Navbar = () => {
   const { auth } = useAuth()
-  const { user } = useSelector((state) => state.auth) 
-
+  const { user: userAuth } = useSelector((state) => state.auth)
   // const [query, setQuery] = useState("")
 
   const navigate =  useNavigate()
@@ -31,20 +30,20 @@ const Navbar = () => {
 
   return (
     <nav id="nav">
-      <Link to={`${user._id}`}>TuringWash</Link>
+      <Link to={`/${userAuth?._id ?? ""}`}>TuringWash</Link>
       <ul id="nav-links">
         {auth ? (
           <>
-            {user && (
+            {userAuth && (
               <li>
-                <NavLink to={`/cars/${user._id}`}>
+                <NavLink to={`/cars/${userAuth._id}`}>
                   <span>Meus carros</span>
                 </NavLink>
               </li>
             )}
-            {user && (
+            {userAuth && (
               <li>
-                <NavLink to={`/washs/${user._id}`}>
+                <NavLink to={`/washs/${userAuth._id}`}>
                   <span>Minhas lavagens</span>
                 </NavLink>
               </li>

@@ -91,7 +91,7 @@ const getCars = async(token) => {
 }
 
 const carService = {
-  insertCar: insertCar,
+  insertCar,
   getUserCars,
   deleteCar,
   updateCar,
