@@ -66,8 +66,8 @@ const AddCar = () => {
 
     formData.append("car", carFormData)
 
-    dispatch(insertCar(carData))
-    // dispatch(insertCar(formData))
+    // dispatch(insertCar(carData))
+    dispatch(insertCar(formData))
 
     setFabricante("")
     setModelo("")
