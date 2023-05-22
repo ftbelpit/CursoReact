@@ -3,7 +3,6 @@ import "./AddCar.css"
 // components
 import Message from "../../components/Message"
 
-
 // hooks
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux"
@@ -60,14 +59,13 @@ const AddCar = () => {
     // build form data
     const formData = new FormData()
 
-    const carFormData = Object.keys(carData).forEach((key) => 
-      formData.append(key, carData[key])  
+    const carFormData = Object.keys(carData).forEach((key) => formData.append(key, carData[key])  
     )
 
     formData.append("car", carFormData)
 
-    // dispatch(insertCar(carData))
-    dispatch(insertCar(formData))
+    dispatch(insertCar(carData))
+    // dispatch(insertCar(formData))
 
     setFabricante("")
     setModelo("")

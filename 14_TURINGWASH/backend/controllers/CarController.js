@@ -1,7 +1,6 @@
 const User = require("../models/User")
 const Car = require("../models/Car")
 
-
 const mongoose = require("mongoose")
 
 // Insert a car, with an user related to it
@@ -23,7 +22,7 @@ const insertCar = async (req, res) => {
     });
 
     // If car was created successfully, return data
-    res.status(201).json(newCar);
+    res.status(201).json(newCar)
   } catch (error) {
     console.log(error);
     res.status(422).json({

@@ -5,18 +5,18 @@ const carInsertValidation = () => {
     body("fabricante")
       .isString()
       .withMessage("O fabricante é obrigatório.")
-      .isLength({ min: 2})
-      .withMessage("O fabricante precisa ter no mínimo 2 caracteres."),
+      .isLength({min: 2})
+      .withMessage("O fabricante precisa ter no mínimo 2 caracteres"),
     body("modelo")
       .isString()
-      .withMessage("O modelo é obrigatório.")
-      .isLength({ min: 2})
-      .withMessage("O modelo precisa ter no mínimo 2 caracteres."),
+      .withMessage("O modelo é obrigatório")
+      .isLength({min: 2})
+      .withMessage("O modelo precisa ter no mínimo 2 caracteres"),
     body("ano")
-      .isNumeric()
-      .withMessage("O ano é obrigatório.")
+      .isString()
+      .withMessage("O ano é obrigatório")
       .isLength({ min: 4 })
-      .withMessage("O ano precisa ter no mínimo 4 carateres."),
+      .withMessage("O ano precisa ter no mínimo 4 carateres"),
   ] 
 }
 
