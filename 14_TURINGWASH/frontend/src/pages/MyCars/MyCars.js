@@ -32,7 +32,6 @@ const MyCars = () => {
 
   const handleDelete = (id) => {
     dispatch(deleteCar(id))
-
     resetMessage()
   }
 
@@ -42,29 +41,29 @@ const MyCars = () => {
 
   return (
     <div id="profile">
-        <div className="profile-title">
-          <h2>Meus Carros</h2>
-        </div>
-        {cars && cars.length > 0 && cars.map((car) => (
-          <div className="profile-car" key={car._id}> 
-            <div>
-              <span className="fabricante">{car.fabricante}</span> <span className="modelo">{car.modelo}</span>
-              <p className="ano">{car.ano}</p>
-            </div>
-            {id === userAuth._id && (
-              <>
-                  <button className="delete-button" onClick={() => handleDelete(car._id)}>
-                    Excluir carro
-                  </button>
-              </>
-            )}
-          </div>  
-        ))}
-          <div className="add-button">
-            <Link to={`/addcar/${user._id}`}>
-              <button className="add-button">Adicionar carro</button>
-            </Link>
+      <div className="profile-title">
+        <h2>Meus Carros</h2>
+      </div>
+      {cars && cars.length > 0 && cars.map((car) => (
+        <div className="profile-car" key={car._id}> 
+          <div>
+            <span className="fabricante">{car.fabricante}</span> <span className="modelo">{car.modelo}</span>
+            <p className="ano">{car.ano}</p>
           </div>
+          {id === userAuth._id && (
+            <>
+                <button className="delete-button" onClick={() => handleDelete(car._id)}>
+                  Excluir carro
+                </button>
+            </>
+          )}
+        </div>  
+      ))}
+      <div className="add-button">
+        <Link to={`/addcar/${user._id}`}>
+          <button className="add-button">Adicionar carro</button>
+        </Link>
+      </div>
     </div>
   )
 }

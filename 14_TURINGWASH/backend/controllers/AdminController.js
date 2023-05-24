@@ -145,19 +145,10 @@ const getAdminById = async (req,res) => {
   }
 }
 
-const getAllUsers = async(req, res) => {
-  const users = await User.find({})
-    .sort([["createdAt", -1]])
-    .exec()
-
-  return res.status(200).json(users)
-}
-
 module.exports = {
   registerAdmin,
   loginAdmin,
   getCurrentAdmin,
   updateAdmin,
   getAdminById,
-  getAllUsers
 }

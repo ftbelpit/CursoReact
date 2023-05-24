@@ -20,16 +20,16 @@ import {api, requestConfig} from "../utils/config"
 // }
 
 // Logout an admin 
-const logout = () => {
+const logoutAdmin = () => {
   localStorage.removeItem("admin")
 }
 
 // Sign in an admin
-const login = async(data) => {
+const loginAdmin = async(data) => {
   const config = requestConfig("POST", data)
 
   try {
-    const res = await fetch(api + "/admins/login", config)
+    const res = await fetch(api + "/admins/login_admin", config)
       .then((res) => res.json())
       .catch((err) => err)
 
@@ -45,8 +45,8 @@ const login = async(data) => {
 
 const adminAuthService = {
   // register,
-  logout,
-  login
+  logoutAdmin,
+  loginAdmin
 }
 
 export default adminAuthService

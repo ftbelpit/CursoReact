@@ -11,30 +11,30 @@ const initialState = {
 }
 
 // Register an admin and sign in
-export const register = createAsyncThunk(
-  "authAdmin/register",
-  async (admin, thunkAPI) => {
-    const data = await adminAuthService.register(admin)
+// export const register = createAsyncThunk(
+//   "authAdmin/register",
+//   async (admin, thunkAPI) => {
+//     const data = await adminAuthService.register(admin)
 
-    // check for errors
-    if(data.errors) {
-      return thunkAPI.rejectWithValue(data.errors[0])
-    }
+//     // check for errors
+//     if(data.errors) {
+//       return thunkAPI.rejectWithValue(data.errors[0])
+//     }
 
-    return data
-  }
-)
+//     return data
+//   }
+// )
 
 // Logout an admin
-export const logout = createAsyncThunk("authAdmin/logout", async() => {
-  await adminAuthService.logout()
+export const logoutAdmin = createAsyncThunk("authAdmin/logout_admin", async() => {
+  await adminAuthService.logoutAdmin()
 })
 
 // Sign in an admin
-export const login = createAsyncThunk(
-  "authAdmin/login",
+export const loginAdmin = createAsyncThunk(
+  "authAdmin/login_admin",
   async (admin, thunkAPI) => {
-    const data = await adminAuthService.login(admin)
+    const data = await adminAuthService.loginAdmin(admin)
 
     // check for errors
     if(data.errors) {
@@ -49,7 +49,7 @@ export const adminAuthSlice = createSlice({
   name: "authAdmin",
   initialState,
   reducers: {
-    reset: (state) => {
+    resetAdmin: (state) => {
       state.loading = false
       state.error = false
       state.success = false
@@ -57,38 +57,38 @@ export const adminAuthSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-    .addCase(register.pending, (state) => {
+    // .addCase(register.pending, (state) => {
+    //   state.loading = true
+    //   state.error = false
+    // })
+    // .addCase(register.fulfilled, (state, action) => {
+    //   state.loading = false
+    //   state.success = true
+    //   state.error = null
+    //   state.admin = action.payload
+    // })
+    // .addCase(register.rejected, (state, action) => {
+    //   state.loading = false
+    //   state.error = action.payload
+    //   state.admin = null
+    // })
+    .addCase(logoutAdmin.fulfilled, (state, action) => {
+      state.loading = false
+      state.success = true
+      state.error = null
+      state.admin = null
+    })
+    .addCase(loginAdmin.pending, (state) => {
       state.loading = true
       state.error = false
     })
-    .addCase(register.fulfilled, (state, action) => {
+    .addCase(loginAdmin.fulfilled, (state, action) => {
       state.loading = false
       state.success = true
       state.error = null
       state.admin = action.payload
     })
-    .addCase(register.rejected, (state, action) => {
-      state.loading = false
-      state.error = action.payload
-      state.admin = null
-    })
-    .addCase(logout.fulfilled, (state, action) => {
-      state.loading = false
-      state.success = true
-      state.error = null
-      state.admin = null
-    })
-    .addCase(login.pending, (state) => {
-      state.loading = true
-      state.error = false
-    })
-    .addCase(login.fulfilled, (state, action) => {
-      state.loading = false
-      state.success = true
-      state.error = null
-      state.admin = action.payload
-    })
-    .addCase(login.rejected, (state, action) => {
+    .addCase(loginAdmin.rejected, (state, action) => {
       state.loading = false
       state.error = action.payload
       state.admin = null
@@ -96,5 +96,5 @@ export const adminAuthSlice = createSlice({
   }
 })
 
-export const {reset} = adminAuthSlice.actions
+export const {resetAdmin} = adminAuthSlice.actions
 export default adminAuthSlice.reducer

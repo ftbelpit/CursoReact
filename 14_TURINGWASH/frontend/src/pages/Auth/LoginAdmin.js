@@ -9,7 +9,7 @@ import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 
 // Redux
-import { login, reset } from "../../slices/adminAuthSlice"
+import { loginAdmin, resetAdmin } from "../../slices/adminAuthSlice"
 
 const LoginAdmin = () => {
   const [email_admin, setEmailAdmin] = useState("")
@@ -27,12 +27,12 @@ const LoginAdmin = () => {
       password_admin,
     }
 
-    dispatch(login(admin))
+    dispatch(loginAdmin(admin))
   }
 
   // Clean all auth states
   useEffect(() => {
-    dispatch(reset())
+    dispatch(resetAdmin())
   }, [dispatch])
 
   return (

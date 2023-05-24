@@ -7,7 +7,8 @@ const {
   login, 
   getCurrentUser,
   update,
-  getUserById
+  getUserById,
+  getUsers
 } = require("../controllers/UserController")
 
 // Middlewares
@@ -30,6 +31,7 @@ router.put(
   validate, 
   update
 )
+router.get("/", authGuard, getUsers)
 router.get("/:id", getUserById)
 
 module.exports = router

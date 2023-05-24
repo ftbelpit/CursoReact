@@ -3,6 +3,7 @@ import { createSlice, createAsyncThunk} from "@reduxjs/toolkit"
 import userService from "../services/userService"
 
 const initialState = {
+  users: [],
   user: {},
   error: false,
   success: false,
@@ -48,6 +49,16 @@ export const getUserDetails = createAsyncThunk(
     return data
   }
 )
+
+export const getUsers = createAsyncThunk(
+  "user/getall", 
+  async(_, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token
+
+    const data = await userService.getUsers(token)
+
+    return data 
+})
 
 export const userSlice = createSlice({
   name: "user", 
@@ -95,6 +106,16 @@ export const userSlice = createSlice({
       state.success = true
       state.error = null
       state.user = action.payload
+    })
+    .addCase(getUsers.pending, (state) => {
+      state.loading = true
+      state.error = false
+    })
+    .addCase(getUsers.fulfilled, (state, action) => {
+      state.loading = false
+      state.success = true
+      state.error = null
+      state.users = action.payload 
     })
   }
 }) 

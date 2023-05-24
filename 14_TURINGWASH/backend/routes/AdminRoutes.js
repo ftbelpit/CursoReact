@@ -8,7 +8,6 @@ const {
   getCurrentAdmin,
   updateAdmin,
   getAdminById,
-  getAllUsers
 } = require("../controllers/AdminController")
 
 // Middlewares
@@ -24,7 +23,7 @@ const authGuardAdmin = require("../middlewares/authGuardAdmin")
 router.post("/register_admin", adminCreateValidation(), validate, registerAdmin)
 router.post("/login_admin", adminLoginValidation(), validate, loginAdmin)
 router.get("/profile_admin", authGuardAdmin, getCurrentAdmin)
-router.get("/", authGuardAdmin, getAllUsers)
+
 router.put(
   "/", 
   authGuardAdmin, 

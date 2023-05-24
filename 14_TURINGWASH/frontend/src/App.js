@@ -27,10 +27,8 @@ function App() {
   const {auth, loading} = useAuth()
   const { authAdmin } = useAuthAdmin()
   const { user } = useSelector((state) => state.auth)
-  const { admin } = useSelector((state) => state.authAdmin)
+  // const { admin } = useSelector((state) => state.authAdmin)
 
-
-  
   if(loading) {
     return <p>Carregando...</p>
   }
@@ -45,13 +43,21 @@ function App() {
           <Route path="/home_admin" element={authAdmin ? <HomeAdmin /> : <Navigate to="/login_admin" />} />
           <Route path="/myusers" element={authAdmin ? <MyUsers /> : <Navigate to="/login_admin" />}/>
           <Route path="/:id" element={auth ? <Home /> : <Navigate to="/login" />} />
-          {!auth ? (
-              <Route path="/" element={<Navigate to="/login" />} />
-            ) : (
-              <Route path="/" element={<Navigate to={`/${user?._id ?? ""}`} />} />
-            )
-          }
-
+          {!auth && !authAdmin ? (
+          <Route path="/" element={<Navigate to="/login" />} />
+          ) : (
+            <>
+              {auth && (
+                <Route
+                  path="/"
+                  element={<Navigate to={`/${user?._id ?? ""}`} />}
+                />
+              )}
+              {authAdmin && (
+                <Route path="/" element={<Navigate to="/home_admin" />} />
+              )}
+            </>
+          )}
           <Route path="/washs/:id" element={auth ? <MyWashs /> : <Navigate to="/login" />}/>
           <Route path="/cars/:id" element={auth ? <MyCars /> : <Navigate to="/login" />}/>
           <Route path="/addcar/:id" element={auth ? <AddCar /> : <Navigate to="/login" />} />
