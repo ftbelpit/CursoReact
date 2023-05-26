@@ -1,8 +1,8 @@
 import {api, requestConfig} from "../utils/config"
 
 // Get admin details
-const profile = async(data, token) => {
-  const config = requestConfig("GET", data, token)
+const profileAdmin = async(data, token_admin) => {
+  const config = requestConfig("GET", data, token_admin)
 
   try {
     const res = await fetch(api + "/admins/profile_admin", config)
@@ -16,11 +16,11 @@ const profile = async(data, token) => {
 }
 
 // Update admin details
-const updateProfile = async(data, token) => {
-  const config = requestConfig("PUT", data, token, true)
+const updateProfileAdmin = async(data, token_admin) => {
+  const config = requestConfig("PUT", data, token_admin, true)
 
   try {
-    const res = await fetch(api + "/admins/", config)
+    const res = await fetch(api + "/admins", config)
       .then((res) => res.json())
       .catch((err) => err)
 
@@ -31,11 +31,11 @@ const updateProfile = async(data, token) => {
 }
 
 // Get admin details
-const getAdminDetails = async (id) => {
+const getAdminDetails = async (id_admin) => {
   const config = requestConfig("GET")
 
   try {
-    const res = await fetch(api + "/admins/" + id, config)
+    const res = await fetch(api + "/admins/" + id_admin, config)
       .then((res) => res.json())
       .catch((err) => err)
 
@@ -45,26 +45,10 @@ const getAdminDetails = async (id) => {
   }
 }
 
-// Get all users
-const getUsers = async(token) => {
-  const config = requestConfig("GET", null, token)
-
-  try {
-    const res = await fetch(api + "/users", config)
-      .then((res) => res.json())
-      .catch((err) => err)
-
-    return res
-  } catch (error) {
-    console.log(error)
-  }
-}
-
 const adminService = {
-  profile,
-  updateProfile,
-  getAdminDetails,
-  getUsers
+  profileAdmin,
+  updateProfileAdmin,
+  getAdminDetails
 }
 
 export default adminService  

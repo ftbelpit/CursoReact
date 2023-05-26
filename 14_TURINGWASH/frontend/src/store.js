@@ -5,6 +5,7 @@ import userReducer from './slices/userSlice'
 import carReducer from './slices/carSlice'
 import adminReducer from './slices/adminSlice'
 import adminAuthReducer from './slices/adminAuthSlice'
+import washerReducer from './slices/washerSlice'
 
 export const store = configureStore({
   reducer: {
@@ -13,5 +14,6 @@ export const store = configureStore({
     car: carReducer,
     admin: adminReducer,
     authAdmin: adminAuthReducer,
+    washer: washerReducer,
   },
 })

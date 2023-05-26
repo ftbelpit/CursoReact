@@ -1,5 +1,4 @@
 const Admin = require("../models/Admin")
-const User = require("../models/User")
 
 const bcrypt1 = require("bcryptjs")
 const jwt1 = require("jsonwebtoken")
@@ -9,8 +8,8 @@ const mongoose = require("mongoose")
 const jwtSecret1 = process.env.JWT_SECRET1
 
 // Generate admin token
-const generateTokenAdmin = (id) => {
-  return jwt1.sign({ id }, jwtSecret1, {
+const generateTokenAdmin = (id_admin) => {
+  return jwt1.sign({ id_admin }, jwtSecret1, {
     expiresIn: "7d",
   })
 }
@@ -127,10 +126,10 @@ const updateAdmin = async (req, res) => {
 
 // Get admin by id
 const getAdminById = async (req,res) => {
-  const {id} = req.params
+  const {id_admin} = req.params
 
   try {
-    const admin = await Admin.findById(new mongoose.Types.ObjectId(id)).select("-password_admin")
+    const admin = await Admin.findById(new mongoose.Types.ObjectId(id_admin)).select("-password_admin")
 
     //  Check if admin exists 
     if(!admin) {

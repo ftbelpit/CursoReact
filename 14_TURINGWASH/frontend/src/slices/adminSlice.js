@@ -11,24 +11,24 @@ const initialState = {
 }
 
 // Get admin details
-export const profile = createAsyncThunk(
-  "admin/profile",
+export const profileAdmin = createAsyncThunk(
+  "admin/profile_admin",
   async(admin, thunkAPI) => {
-    const token = thunkAPI.getState().auth.admin.token
+    const tokenAdmin = thunkAPI.getState().authAdmin.admin.token_admin
 
-    const data = await adminService.profile(admin, token)
+    const data = await adminService.profileAdmin(admin, tokenAdmin)
     
     return data
   }
 ) 
 
 // Update admin details
-export const updateProfile = createAsyncThunk(
-  "admin/update",
+export const updateProfileAdmin = createAsyncThunk(
+  "admin/update_admin",
   async(admin, thunkAPI) => {
-    const token = thunkAPI.getState().auth.admin.token
+    const tokenAdmin = thunkAPI.getState().authAdmin.admin.token_admin
     
-    const data = await adminService.updateProfile(admin, token)
+    const data = await adminService.updateProfileAdmin(admin, tokenAdmin)
 
     // Check for errors
     if(data.errors) {
@@ -41,9 +41,9 @@ export const updateProfile = createAsyncThunk(
 
 // Get admin details
 export const getAdminDetails = createAsyncThunk(
-  "admin/get",
-  async(id, thunkAPI) => {
-    const data = await adminService.getAdminDetails(id)
+  "admin/get_admin",
+  async(id_admin, thunkAPI) => {
+    const data = await adminService.getAdminDetails(id_admin)
 
     return data
   }
@@ -59,28 +59,28 @@ export const adminSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-    .addCase(profile.pending, (state) => {
+    .addCase(profileAdmin.pending, (state) => {
       state.loading = true
       state.error = false
     })
-    .addCase(profile.fulfilled, (state, action) => {
+    .addCase(profileAdmin.fulfilled, (state, action) => {
       state.loading = false
       state.success = true
       state.error = null
       state.admin = action.payload
     })
-    .addCase(updateProfile.pending, (state) => {
+    .addCase(updateProfileAdmin.pending, (state) => {
       state.loading = true
       state.error = false
     })
-    .addCase(updateProfile.fulfilled, (state, action) => {
+    .addCase(updateProfileAdmin.fulfilled, (state, action) => {
       state.loading = false
       state.success = true
       state.error = null
       state.admin = action.payload
       state.message = "Administrador atuzaliado com sucesso!"
     })
-    .addCase(updateProfile.rejected, (state, action) => {
+    .addCase(updateProfileAdmin.rejected, (state, action) => {
       console.log(state, action)
       state.loading = false
       state.error = action.payload

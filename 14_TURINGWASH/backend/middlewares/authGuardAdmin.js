@@ -13,7 +13,7 @@ const authGuardAdmin = async (req, res, next) => {
     try {
       const verified = jwt1.verify(token_admin, jwtSecret1)
 
-      req.admin = await Admin.findById(verified.id).select("-password_admin")
+      req.admin = await Admin.findById(verified.id_admin).select("-password_admin")
 
       next()
     } catch (error) {

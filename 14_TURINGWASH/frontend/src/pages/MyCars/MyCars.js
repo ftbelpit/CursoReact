@@ -47,7 +47,8 @@ const MyCars = () => {
       {cars && cars.length > 0 && cars.map((car) => (
         <div className="profile-car" key={car._id}> 
           <div>
-            <span className="fabricante">{car.fabricante}</span> <span className="modelo">{car.modelo}</span>
+            <span className="fabricante">{car.fabricante} </span> 
+            <span className="modelo">{car.modelo}</span>
             <p className="ano">{car.ano}</p>
           </div>
           {id === userAuth._id && (

@@ -31,6 +31,6 @@ router.put(
   validate, 
   updateAdmin
 )
-router.get("/:id", getAdminById)
+router.get("/:id_admin", getAdminById)
 
 module.exports = router
