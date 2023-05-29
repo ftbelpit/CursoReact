@@ -1,10 +1,21 @@
 import "./MyWashs.css"
 
 // hooks
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getWashers } from "../../slices/washerSlice";
+import { useEffect } from "react";
 
 const MyWashs = () => {
   const selectedCar = useSelector((state) => state.car.selectedCar);
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getWashers())
+  }, [dispatch])
+
+  const {washer} = useSelector((state) => state.washer)
 
   return (
     <div className="wash-list">
@@ -15,7 +26,7 @@ const MyWashs = () => {
         <div className="wash-card">
           <div className="wash-info">
             <span>Lavador</span>
-            <span>Joana Santos</span>
+            <span>{washer.name}</span>
           </div>
           <div className="wash-car">
             <span>Carro</span>

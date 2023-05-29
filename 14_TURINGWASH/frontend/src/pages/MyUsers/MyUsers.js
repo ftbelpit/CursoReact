@@ -23,9 +23,9 @@ const MyUsers = () => {
       </div>
       {users && users.length > 0 ? (
         users.map((user) => (
-          <div className="profile-car" key={user._id}>
+          <div className="profile-user" key={user._id}>
             <div>
-              <span className="fabricante">{user.name}</span>
+              <span>{user.name}</span>
             </div>
           </div>
         ))

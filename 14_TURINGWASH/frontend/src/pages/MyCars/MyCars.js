@@ -45,7 +45,7 @@ const MyCars = () => {
         <h2>Meus Carros</h2>
       </div>
       {cars && cars.length > 0 && cars.map((car) => (
-        <div className="profile-car" key={car._id}> 
+        <div className="profile-cars" key={car._id}> 
           <div>
             <span className="fabricante">{car.fabricante} </span> 
             <span className="modelo">{car.modelo}</span>

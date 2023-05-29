@@ -12,9 +12,7 @@ import { useResetComponentMessage } from "../../hooks/useResetComponentMessage";
 // redux
 import { getUserDetails } from "../../slices/userSlice";
 import { 
-
   insertCar, 
-
 } from "../../slices/carSlice";
 
 
@@ -25,9 +23,7 @@ const AddCar = () => {
 
   const resetMessage = useResetComponentMessage(dispatch)
 
-  const { 
-    loading 
-  } = useSelector((state) => state.user)
+  const { loading } = useSelector((state) => state.user)
   const { user: userAuth } = useSelector((state) => state.auth)
   const { 
     loading: loadingCar, 
@@ -59,7 +55,8 @@ const AddCar = () => {
     // build form data
     const formData = new FormData()
 
-    const carFormData = Object.keys(carData).forEach((key) => formData.append(key, carData[key])  
+    const carFormData = Object.keys(carData).forEach((key) => 
+      formData.append(key, carData[key])  
     )
 
     formData.append("car", carFormData)

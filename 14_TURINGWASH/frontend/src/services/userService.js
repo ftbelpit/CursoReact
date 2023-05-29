@@ -46,8 +46,8 @@ const getUserDetails = async (id) => {
 }
 
 // Get all users
-const getUsers = async() => {
-  const config = requestConfig("GET", null)
+const getUsers = async(token) => {
+  const config = requestConfig("GET", null, token)
 
   try {
     const res = await fetch(api + "/users", config)

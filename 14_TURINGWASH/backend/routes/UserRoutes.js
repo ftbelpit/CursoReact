@@ -19,6 +19,7 @@ const {
   userUpdateValidation,
 } = require("../middlewares/userValidations")
 const authGuard = require("../middlewares/authGuard")
+const authGuardAdmin = require("../middlewares/authGuardAdmin")
 
 // Routes
 router.post("/register", userCreateValidation(), validate, register)
@@ -31,7 +32,7 @@ router.put(
   validate, 
   update
 )
-router.get("/", authGuard, getUsers)
+router.get("/", authGuardAdmin, getUsers)
 router.get("/:id", getUserById)
 
 module.exports = router

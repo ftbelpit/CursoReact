@@ -4,32 +4,33 @@ const Car = require("../models/Car")
 const mongoose = require("mongoose")
 
 // Insert a car, with an user related to it
-const insertCar = async (req, res) => {
-  const { fabricante, modelo, ano } = req.body;
+const insertCar = async(req, res) => {
+  const { fabricante, modelo, ano } = req.body
 
-  const reqUser = req.user;
+  const reqUser = req.user
 
-  try {
-    const user = await User.findById(reqUser._id);
+  const user = await User.findById(reqUser._id)
 
-    // Create a car
-    const newCar = await Car.create({
-      fabricante,
-      modelo,
-      ano,
-      userId: user._id,
-      userName: user.name
-    });
+  // Create a photo
+  const newCar = await Car.create({
+    fabricante,
+    modelo,
+    ano,
+    userId: user._id,
+    userName: user.name
+  });
 
-    // If car was created successfully, return data
-    res.status(201).json(newCar)
-  } catch (error) {
-    console.log(error);
+
+  // If car was created successfully, return data
+  if(!newCar) {
     res.status(422).json({
-      errors: ["Houve um problema, por favor tente novamente mais tarde."]
-    });
+      errors: ["Houve um problema, por favor tente novamente mais tarde."], 
+    })
+    return
   }
-};
+
+  res.status(201).json(newCar)
+}
 
 // Remove a car from DB
 const deleteCar = async(req, res) => {
@@ -67,7 +68,7 @@ const deleteCar = async(req, res) => {
   }
 }
 
-// // Get all cars
+// Get all cars
 const getAllCars = async(req, res) => {
   const cars = await Car.find({})
     .sort([["createdAt", -1]])
