@@ -106,8 +106,8 @@ const getWasher = async (id, token_admin) => {
 // }
 
 // Get all washers
-const getWashers = async(token_admin) => {
-  const config = requestConfig("GET", null, token_admin)
+const getWashers = async() => {
+  const config = requestConfig("GET", null)
 
   try {
     const res = await fetch(api + "/washers", config)

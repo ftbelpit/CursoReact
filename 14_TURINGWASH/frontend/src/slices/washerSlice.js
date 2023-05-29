@@ -138,9 +138,7 @@ export const getWasher = createAsyncThunk(
 export const getWashers = createAsyncThunk(
   "washer/getall", 
   async(_, thunkAPI) => {
-    const tokenAdmin = thunkAPI.getState().authAdmin.admin.token_admin
-
-    const data = await washerService.getWashers(tokenAdmin)
+    const data = await washerService.getWashers()
 
     return data 
 })

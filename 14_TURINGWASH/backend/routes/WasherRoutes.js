@@ -17,6 +17,7 @@ const {
 // Middlewares
 const { washerInsertValidation, washerUpdateValidation } = require("../middlewares/washerValidation")
 const authGuardAdmin = require("../middlewares/authGuardAdmin")
+const authGuard = require("../middlewares/authGuard")
 const validate = require ("../middlewares/handleValidation")
 const { imageUpload } = require("../middlewares/imageUpload")
 
@@ -30,7 +31,7 @@ router.post(
   insertWasher
 )
 // router.delete("/:id", authGuardAdmin, deleteWasher)
-router.get("/", authGuardAdmin, getAllWashers)
+router.get("/", getAllWashers)
 // router.get("/user/:id", authGuard, getUserPhotos)
 router.get("/search", authGuardAdmin, searchWashers)
 router.get("/:id", authGuardAdmin, getWasherById)
