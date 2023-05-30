@@ -10,7 +10,8 @@ const washerSchema = new Schema(
     price: Number,
     adminId: mongoose.ObjectId,
     adminName: String,
-  }, {
+  }, 
+  {
     timestamps: true,
   } 
 )

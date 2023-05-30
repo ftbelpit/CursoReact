@@ -6,7 +6,6 @@ const adminSchema = new Schema(
     name_admin: String,
     email_admin: String,
     password_admin: String,
-    // profileImage: String,
   },
   {
     timestamps: true

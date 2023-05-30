@@ -7,8 +7,25 @@ const initialState = {
   error: false,
   success: false,
   loading: false,
-  message: null
+  message: null,
+  selectedWasher: null
 }
+
+export const chooseWasher = createAsyncThunk(
+  "washer/choose",
+  async (washerId, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+
+    const data = await washerService.getWasher(washerId, token);
+
+    // Check for errors
+    if (data.errors) {
+      return thunkAPI.rejectWithValue(data.errors[0]);
+    }
+
+    return data;
+  }
+);
 
 // Insert washer
 export const insertWasher = createAsyncThunk(
@@ -165,6 +182,9 @@ export const washerSlice = createSlice({
   },
   extraReducers: (builder) => {
   builder
+    .addCase(chooseWasher.fulfilled, (state, action) => {
+      state.selectedWasher = action.payload;
+    })
     .addCase(insertWasher.pending, (state) => {
       state.loading = true
       state.error = false

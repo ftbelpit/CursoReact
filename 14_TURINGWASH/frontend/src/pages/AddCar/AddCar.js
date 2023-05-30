@@ -11,9 +11,7 @@ import { useResetComponentMessage } from "../../hooks/useResetComponentMessage";
 
 // redux
 import { getUserDetails } from "../../slices/userSlice";
-import { 
-  insertCar, 
-} from "../../slices/carSlice";
+import { insertCar } from "../../slices/carSlice";
 
 
 const AddCar = () => {
@@ -41,8 +39,6 @@ const AddCar = () => {
     dispatch(getUserDetails(id))
   }, [dispatch, id])
 
-  resetMessage()
-
   const submitHandle = (e) => {
     e.preventDefault();
 
@@ -55,9 +51,7 @@ const AddCar = () => {
     // build form data
     const formData = new FormData()
 
-    const carFormData = Object.keys(carData).forEach((key) => 
-      formData.append(key, carData[key])  
-    )
+    const carFormData = Object.keys(carData).forEach((key) => formData.append(key, carData[key]))
 
     formData.append("car", carFormData)
 

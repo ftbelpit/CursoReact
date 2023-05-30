@@ -23,14 +23,7 @@ const authGuardAdmin = require("../middlewares/authGuardAdmin")
 router.post("/register_admin", adminCreateValidation(), validate, registerAdmin)
 router.post("/login_admin", adminLoginValidation(), validate, loginAdmin)
 router.get("/profile_admin", authGuardAdmin, getCurrentAdmin)
-
-router.put(
-  "/", 
-  authGuardAdmin, 
-  adminUpdateValidation(), 
-  validate, 
-  updateAdmin
-)
+router.put("/", authGuardAdmin, adminUpdateValidation(), validate, updateAdmin)
 router.get("/:id_admin", getAdminById)
 
 module.exports = router

@@ -72,7 +72,6 @@ const login = async (req, res) => {
   // Return user with token
   res.status(201).json({
     _id: user._id,
-    // profileImage: user.profileImage,
     token: generateToken(user._id)
   })
 
@@ -87,13 +86,7 @@ const getCurrentUser = async (req,res) => {
 
 // Update an user
 const update = async (req, res) => {
-  const {name, password, bio} = req.body
-
-  // let profileImage = null
-
-  // if(req.file) {
-  //   profileImage = req.file.filename
-  // }
+  const {name, password} = req.body
 
   const reqUser = req.user
 
@@ -110,14 +103,6 @@ const update = async (req, res) => {
 
     user.password = passwordHash
   }
-
-  // if(profileImage) {
-  //   user.profileImage = profileImage 
-  // }
-
-  // if(bio) {
-  //   user.bio = bio
-  // }
 
   await user.save()
 

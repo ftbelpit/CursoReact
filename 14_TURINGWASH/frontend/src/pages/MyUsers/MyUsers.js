@@ -17,7 +17,7 @@ const MyUsers = () => {
   }
 
   return (
-    <div id="profile">
+    <div id="users">
       <div className="profile-title">
         <h2>Meus Usuários</h2>
       </div>
@@ -26,6 +26,7 @@ const MyUsers = () => {
           <div className="profile-user" key={user._id}>
             <div>
               <span>{user.name}</span>
+              <p>{user.email}</p>
             </div>
           </div>
         ))

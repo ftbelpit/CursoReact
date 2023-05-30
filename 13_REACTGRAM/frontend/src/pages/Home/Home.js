@@ -48,7 +48,7 @@ const Home = () => {
           </div>
         ))}
       {photos && photos.length > 0 && photos.map((photo) => (
-        <h2 className="no-photos">
+        <h2 className="no-photos" key={photo._id}>
           Ainda não há fotos publicadas,{" "}
           <Link to={`/users/${user._id}`}>Clique aqui</Link>
         </h2>

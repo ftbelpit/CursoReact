@@ -6,17 +6,15 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
 // redux
-import { getUserCars, chooseCar } from "../../slices/carSlice";
+import { getUserCars } from "../../slices/carSlice";
 import { getWashers } from "../../slices/washerSlice";
 
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import WasherItem from "../../components/WasherItem";
 
 const Home = () => {
   const [selectedOrder, setSelectedOrder] = useState("name");
-  const [selectedCar, setSelectedCar] = useState();
-  const [selectedWasher, setSelectedWasher] = useState();
 
   const { user } = useSelector((state) => state.auth);
   const { loading } = useSelector((state) => state.user);
@@ -24,7 +22,6 @@ const Home = () => {
   const { cars } = useSelector((state) => state.car);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
@@ -34,16 +31,6 @@ const Home = () => {
   useEffect(() => {
     dispatch(getWashers());
   }, [dispatch]);
-
-  const handleSelectCar = (e) => {
-    const carId = e.target.value;
-    setSelectedCar(carId);
-    dispatch(chooseCar(carId));
-  };
-
-  const handleSelectWasher = (washer) => {
-    setSelectedWasher(washer);
-  };
 
   const handleSelectOrder = (e) => {
     const order = e.target.value;
@@ -79,6 +66,10 @@ const Home = () => {
     return <p>Carregando...</p>;
   }
 
+  if (washers.length === 0) {
+    return <p>Não há lavadores disponíveis.</p>;
+  }
+
   return (
     <div id="home">
       <div className="home-title">
@@ -89,8 +80,6 @@ const Home = () => {
           <span>Lavar:</span>
           <select
             className="select-car"
-            onClick={handleSelectCar}
-            value={selectedCar}
           >
             <option>Selecione um carro</option>
             {cars &&
@@ -141,7 +130,6 @@ const Home = () => {
                 <button
                   type="submit"
                   className="button-wash"
-                  onClick={() => handleSelectWasher(washer)}
                 >
                   Lavar meu carro
                 </button>

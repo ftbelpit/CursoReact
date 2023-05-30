@@ -17,7 +17,6 @@ const {
 // Middlewares
 const { washerInsertValidation, washerUpdateValidation } = require("../middlewares/washerValidation")
 const authGuardAdmin = require("../middlewares/authGuardAdmin")
-const authGuard = require("../middlewares/authGuard")
 const validate = require ("../middlewares/handleValidation")
 const { imageUpload } = require("../middlewares/imageUpload")
 
