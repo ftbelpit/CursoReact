@@ -41,29 +41,21 @@ const AddCar = () => {
 
   const submitHandle = (e) => {
     e.preventDefault();
-
+  
     const carData = {
       fabricante,
       modelo,
-      ano
-    }
-
-    // build form data
-    const formData = new FormData()
-
-    const carFormData = Object.keys(carData).forEach((key) => formData.append(key, carData[key]))
-
-    formData.append("car", carFormData)
-
-    dispatch(insertCar(carData))
-    // dispatch(insertCar(formData))
-
-    setFabricante("")
-    setModelo("")
-    setAno("")
-
-    resetMessage()
-  }
+      ano,
+    };
+  
+    dispatch(insertCar(carData));
+  
+    setFabricante("");
+    setModelo("");
+    setAno("");
+  
+    resetMessage();
+  };  
 
   if (loading) {
     return <p>Carregando...</p>;

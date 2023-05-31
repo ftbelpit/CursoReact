@@ -1,4 +1,4 @@
-import { api, requestConfig } from "../utils/config";
+import { api, requestConfig } from "../utils/config2";
 
 // Publish an user car
 const insertCar = async(data, token) => {
@@ -16,8 +16,8 @@ const insertCar = async(data, token) => {
 }
 
 // Get user cars
-const getUserCars = async(id, token) => {
-  const config = requestConfig("GET", null, token)
+const getUserCars = async(id) => {
+  const config = requestConfig("GET", null)
   
   try {
     const res = await fetch(api + "/cars/user/" + id, config)

@@ -72,7 +72,6 @@ const loginAdmin = async (req, res) => {
   // Return admin with token
   res.status(201).json({
     _id: admin._id,
-    // profileImage: user.profileImage,
     token_admin: generateTokenAdmin(admin._id)
   })
 
@@ -89,12 +88,6 @@ const getCurrentAdmin = async (req,res) => {
 const updateAdmin = async (req, res) => {
   const {name_admin, password_admin} = req.body
 
-  // let profileImage = null
-
-  // if(req.file) {
-  //   profileImage = req.file.filename
-  // }
-
   const reqAdmin = req.admin
 
   const admin = await Admin.findById(new mongoose.Types.ObjectId(reqAdmin._id)).select("-password_admin")
@@ -110,14 +103,6 @@ const updateAdmin = async (req, res) => {
 
     admin.password_admin = passwordHash_admin
   }
-
-  // if(profileImage) {
-  //   user.profileImage = profileImage 
-  // }
-
-  // if(bio) {
-  //   user.bio = bio
-  // }
 
   await admin.save()
 

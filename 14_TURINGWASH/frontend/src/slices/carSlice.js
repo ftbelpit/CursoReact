@@ -8,24 +8,7 @@ const initialState = {
   success: false,
   loading: false,
   message: null,
-  selectedCar: null
 }
-
-export const chooseCar = createAsyncThunk(
-  "car/choose",
-  async (carId, thunkAPI) => {
-    const token = thunkAPI.getState().auth.user.token;
-
-    const data = await carService.getCar(carId, token);
-
-    // Check for errors
-    if (data.errors) {
-      return thunkAPI.rejectWithValue(data.errors[0]);
-    }
-
-    return data;
-  }
-);
 
 // Insert user car
 export const insertCar = createAsyncThunk(
@@ -48,9 +31,7 @@ export const insertCar = createAsyncThunk(
 export const getUserCars = createAsyncThunk(
   "car/usercars",
   async(id, thunkAPI) => {
-    const token = thunkAPI.getState().auth.user.token
-
-    const data = await carService.getUserCars(id, token)
+    const data = await carService.getUserCars(id)
 
     return data
   }
@@ -134,9 +115,6 @@ export const carSlice = createSlice({
   },
   extraReducers: (builder) => {
   builder
-    .addCase(chooseCar.fulfilled, (state, action) => {
-      state.selectedCar = action.payload;
-    })
     .addCase(insertCar.pending, (state) => {
       state.loading = true
       state.error = false

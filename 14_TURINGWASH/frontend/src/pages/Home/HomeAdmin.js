@@ -70,7 +70,7 @@ const HomeAdmin = () => {
         </h2>
       )}
       <div>
-        <Link to="/washer">
+        <Link to="/washers">
           <button>Cadastrar lavador</button>
         </Link>
       </div>

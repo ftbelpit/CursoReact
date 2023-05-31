@@ -20,7 +20,7 @@ const validate = require ("../middlewares/handleValidation")
 router.post("/", authGuard, carInsertValidation(), validate, insertCar)
 router.delete("/:id", authGuard, deleteCar)
 router.get("/", authGuard, getAllCars)
-router.get("/user/:id", authGuard, getUserCars)
+router.get("/user/:id", getUserCars)
 router.get("/:id", authGuard, getCarById)
 router.put("/:id", authGuard, carUpdateValidation(), validate, updateCar)
 

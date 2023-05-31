@@ -9,12 +9,13 @@ export const requestConfig = (method, data, token = null, image = null, token_ad
       method,
       body: data,
       headers: {}
-    };
-  } else if (method === "DELETE" || data === null) {
+    }
+  } 
+  else if (method === "DELETE" || data === null) {
     config = {
       method,
       headers: {}
-    };
+    }
   } else {
     config = {
       method,
