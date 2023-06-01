@@ -25,24 +25,6 @@ const washInsertValidation = () => {
   ] 
 }
 
-// const carUpdateValidation = () => {
-//   return [
-//     body("fabricante")
-//       .optional()
-//       .isLength({min: 2})
-//       .withMessage("O fabricante precisa ter no mínimo 2 caracteres."),
-//     body("modelo")
-//       .optional()
-//       .isLength({ min:2 })
-//       .withMessage("O modelo precisa ter no mínimo 2 caracteres."),
-//     body("ano")
-//       .optional()
-//       .isLength({ min: 4 })
-//       .withMessage("O ano precisa ter no mínimo 4 carateres."),
-//   ]
-// }
-
 module.exports = {
   washInsertValidation,
-  // carUpdateValidation,
 }

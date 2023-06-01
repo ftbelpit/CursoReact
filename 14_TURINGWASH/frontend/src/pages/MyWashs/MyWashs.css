@@ -53,3 +53,7 @@ span {
   right: 0;
   padding: 5px;
 }
+
+.delete-button {
+  display: flex;
+}

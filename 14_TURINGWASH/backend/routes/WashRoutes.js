@@ -4,26 +4,24 @@ const router = express.Router()
 // Controller
 const { 
   insertWash, 
-  // deleteCar,
-  // getAllCars, 
-  // getUserCars, 
-  // getCarById, 
-  // updateCar
+  deleteWash, 
+  getAllWashes,
+  getUserWashes,
+  getWasherWashes, 
+  getWashById,
 } = require("../controllers/WashController")
 
 // Middlewares
-const { washInsertValidation, 
-  // carUpdateValidation
- } = require("../middlewares/washValidation")
+const { washInsertValidation } = require("../middlewares/washValidation")
 const authGuard = require("../middlewares/authGuard")
 const validate = require ("../middlewares/handleValidation")
 
 // Routes 
 router.post("/", authGuard, washInsertValidation(), validate, insertWash)
-// router.delete("/:id", authGuard, deleteCar)
-// router.get("/", authGuard, getAllCars)
-// router.get("/user/:id", getUserCars)
-// router.get("/:id", authGuard, getCarById)
-// router.put("/:id", authGuard, carUpdateValidation(), validate, updateCar)
+router.delete("/:id", authGuard, deleteWash)
+router.get("/", authGuard, getAllWashes)
+router.get("/user/:id", getUserWashes)
+router.get("/washer/:id", getWasherWashes)
+router.get("/:id", authGuard, getWashById)
 
 module.exports = router

@@ -5,7 +5,7 @@ router.use("/api/admins", require("./AdminRoutes"))
 router.use("/api/users", require("./UserRoutes"))
 router.use("/api/cars", require("./CarRoutes"))
 router.use("/api/washers", require("./WasherRoutes"))
-router.use("/api/wash", require("./WashRoutes"))
+router.use("/api/washes", require("./WashRoutes"))
 
 
 

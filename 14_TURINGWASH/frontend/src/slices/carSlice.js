@@ -125,7 +125,7 @@ export const carSlice = createSlice({
       state.error = null
       state.car = action.payload
       state.cars.unshift(state.car)
-      state.message = "Carro publicado com sucesso!" 
+      state.message = "Carro cadastrado com sucesso! Você será redirecionado." 
     })
     .addCase(insertCar.rejected, (state, action) => {
       state.loading = false

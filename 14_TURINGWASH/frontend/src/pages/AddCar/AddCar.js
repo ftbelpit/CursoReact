@@ -6,7 +6,7 @@ import Message from "../../components/Message"
 // hooks
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux"
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useResetComponentMessage } from "../../hooks/useResetComponentMessage";
 
 // redux
@@ -17,11 +17,13 @@ import { insertCar } from "../../slices/carSlice";
 const AddCar = () => {
   const { id } = useParams()
 
+  const navigate = useNavigate()
+
   const dispatch = useDispatch()
 
   const resetMessage = useResetComponentMessage(dispatch)
 
-  const { loading } = useSelector((state) => state.user)
+  const { user, loading } = useSelector((state) => state.user)
   const { user: userAuth } = useSelector((state) => state.auth)
   const { 
     loading: loadingCar, 
@@ -55,6 +57,10 @@ const AddCar = () => {
     setAno("");
   
     resetMessage();
+
+    setTimeout(() => {
+      navigate(`/cars/${user._id}`);
+    }, 2000); // 2000 milliseconds = 2 seconds 
   };  
 
   if (loading) {
@@ -97,12 +103,12 @@ const AddCar = () => {
                   value={ano || ""}
                 />
               </div>
-              <div className="add-button">
-              {!loadingCar && <input type="submit" value="Cadastrar" />}
-              {loadingCar && (
-                <input type="submit" disabled value="Aguarde..." />              
-              )}
-              </div>
+                <div className="add-button">
+                {!loadingCar && <input type="submit" value="Cadastrar" />}
+                {loadingCar && (
+                  <input type="submit" disabled value="Aguarde..." />              
+                )}
+                </div>
             </form>
           </div>
           {errorCar && <Message msg={errorCar} type="error"/>}

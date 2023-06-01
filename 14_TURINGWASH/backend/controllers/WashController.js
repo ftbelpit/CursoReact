@@ -16,8 +16,14 @@ const insertWash = async (req, res) => {
     const user = await User.findById(reqUser._id);
 
     // Encontra o carro existente no banco de dados
-    const car = await Car.findOne({ fabricante, modelo });
-    const washer = await Washer.findOne({name});
+    const car = await Car.findOne({
+      fabricante: { $regex: new RegExp(fabricante, "i") },
+      modelo: { $regex: new RegExp(modelo, "i") }
+    });
+    
+    const washer = await Washer.findOne({
+      name: { $regex: new RegExp(name, "i") }
+    });    
 
     if (!car) {
       return res.status(404).json({ errors: ["Carro não encontrado."] });
@@ -39,6 +45,7 @@ const insertWash = async (req, res) => {
       washerId: washer._id,
       userId: user._id,
       userName: user.name,
+      washerPrice: washer.price,
       date
     });
 
@@ -52,123 +59,91 @@ const insertWash = async (req, res) => {
   }
 };
 
-// // Remove a car from DB
-// const deleteCar = async(req, res) => {
-//   const {id} = req.params 
+// Remove a wash from DB
+const deleteWash = async(req, res) => {
+  const {id} = req.params 
 
-//   const reqUser = req.user 
-//   try {
-//     const car = await Car.findById(new mongoose.Types.ObjectId(id))
+  const reqUser = req.user 
+  try {
+    const wash = await Wash.findById(new mongoose.Types.ObjectId(id))
 
-//     // Check if car exists
-//     if(!car) {
-//       res.status(404).json({ errors: ["Carro não encontrado!"] })
-//       return
-//     }
+    // Check if wash exists
+    if(!wash) {
+      res.status(404).json({ errors: ["Lavagem não encontrada!"] })
+      return
+    }
 
-//     // Check if car belongs to user
-//     if(!car.userId.equals(reqUser._id)) {
-//       return res
-//         .status(422)
-//         .json({ 
-//           errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]
-//         })
-//     }
+    // Check if car belongs to user
+    if(!wash.userId.equals(reqUser._id)) {
+      return res
+        .status(422)
+        .json({ 
+          errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]
+        })
+    }
 
-//     await Car.findByIdAndDelete(car._id)
+    await Wash.findByIdAndDelete(wash._id)
 
-//     res
-//       .status(200)
-//       .json({ 
-//         id: car._id, message: "Carro excluído com sucesso." 
-//       })
-//   } catch (error) {
-//       res.status(404).json({ errors: ["Carro não encontrado!"] })
-//       return
-//   }
-// }
+    res
+      .status(200)
+      .json({ 
+        id: wash._id, message: "Lavagem excluída com sucesso." 
+      })
+  } catch (error) {
+      res.status(404).json({ errors: ["Lavagem não encontrada!"] })
+      return
+  }
+}
 
-// // Get all cars
-// const getAllCars = async(req, res) => {
-//   const cars = await Car.find({})
-//     .sort([["createdAt", -1]])
-//     .exec()
+// Get all washes
+const getAllWashes = async(req, res) => {
+  const washes = await Wash.find({})
+    .sort([["createdAt", -1]])
+    .exec()
 
-//   return res.status(200).json(cars)
-// }
+  return res.status(200).json(washes)
+}
 
-// const getUserCars = async(req, res) => {
-//   const {id} = req.params
+const getUserWashes = async(req, res) => {
+  const {id} = req.params
 
-//   const cars = await Car.find({ userId: id })
-//     .sort([["createdAt", -1]])
-//     .exec()
+  const washes = await Wash.find({ userId: id })
+    .sort([["createdAt", -1]])
+    .exec()
 
-//     return res.status(200).json(cars)
-// }
+    return res.status(200).json(washes)
+}
 
-// // Get car by id
-// const getCarById = async (req, res) => {
-//   const {id} = req.params
+const getWasherWashes = async(req, res) => {
+  const {id} = req.params
 
-//   const car = await Car.findById(new mongoose.Types.ObjectId(id))
+  const washes = await Wash.find({ washerId: id })
+    .sort([["createdAt", -1]])
+    .exec()
 
-//   // Check if car exists
-//   if(!car) {
-//     res.status(404).json({ errors: ["Carro não encontrado."]})
-//     return
-//   }
+    return res.status(200).json(washes)
+}
 
-//   res.status(200).json(car)
-// }
+// Get wash by id
+const getWashById = async (req, res) => {
+  const {id} = req.params
 
-// // Update a car
-// const updateCar = async(req, res) => {
-//   const {id} = req.params
-//   const {fabricante} = req.body
-//   const {modelo} = req.body
-//   const {ano} = req.body
+  const wash = await Wash.findById(new mongoose.Types.ObjectId(id))
 
-//   const reqUser = req.user
+  // Check if wash exists
+  if(!wash) {
+    res.status(404).json({ errors: ["Lavagem não encontrada."]})
+    return
+  }
 
-//   const car = await Car.findById(id)
-
-//   // Check if car exists
-//   if(!car) {
-//     res.status(404).json({errors: ["Carro não encontrado"]})
-//     return
-//   }
-
-//   // Check if car belongs to user
-//   if(!car.userId.equals(reqUser._id)) {
-//     res
-//       .status(422)
-//       .json({
-//         errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]
-//       })
-//     return
-//   }
-
-//   if(fabricante) {
-//     car.fabricante = fabricante
-//   }
-//   if(modelo) {
-//     car.modelo = modelo
-//   }
-//   if(ano) {
-//     car.ano = ano
-//   }
-
-//   await car.save()
-
-//   res.status(200).json({ car, message: "Carro atualizado com sucesso!" })
-// }
+  res.status(200).json(wash)
+}
 
 module.exports = {
   insertWash,
-  // deleteCar,
-  // getAllCars,
-  // getUserCars,
-  // getCarById,
-  // updateCar
+  deleteWash,
+  getAllWashes,
+  getUserWashes,
+  getWasherWashes,
+  getWashById,
 }

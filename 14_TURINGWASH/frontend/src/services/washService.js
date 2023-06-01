@@ -1,11 +1,11 @@
 import { api, requestConfig } from "../utils/configCar";
 
-// Publish an user car
-const insertCar = async(data, token) => {
+// Publish an user wash
+const insertWash = async(data, token) => {
   const config = requestConfig("POST", data, token, true)
 
   try {
-    const res = await fetch(api + "/cars", config)
+    const res = await fetch(api + "/washes", config)
       .then((res) => res.json())
       .catch((err) => err)
 
@@ -15,12 +15,12 @@ const insertCar = async(data, token) => {
   }
 }
 
-// Get user cars
-const getUserCars = async(id) => {
+// Get user washes
+const getUserWashes = async(id) => {
   const config = requestConfig("GET", null)
   
   try {
-    const res = await fetch(api + "/cars/user/" + id, config)
+    const res = await fetch(api + "/washes/user/" + id, config)
       .then((res) => res.json())
       .catch((err) => err)
 
@@ -30,12 +30,27 @@ const getUserCars = async(id) => {
   }
 }
 
-// Delete a car
-const deleteCar = async(id, token) => {
+// Get washer washes
+const getWasherWashes = async(id) => {
+  const config = requestConfig("GET", null)
+  
+  try {
+    const res = await fetch(api + "/washes/washer/" + id, config)
+      .then((res) => res.json())
+      .catch((err) => err)
+
+    return res
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// Delete a wash
+const deleteWash = async(id, token) => {
   const config = requestConfig("DELETE", null, token)
 
   try {
-    const res = await fetch(api + "/cars/" + id, config)
+    const res = await fetch(api + "/washes/" + id, config)
       .then((res) => res.json())
       .catch((err) => err)
 
@@ -45,27 +60,12 @@ const deleteCar = async(id, token) => {
   }
 }
 
-// Update a car
-const updateCar = async (data, id, token) => {
-  const config = requestConfig("PUT", data, token)
-
-  try {
-    const res = await fetch(api + "/cars/" + id, config)
-      .then((res) => res.json())
-      .catch((err) => err)
-
-    return res
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-// get a car by id
-const getCar = async (id, token) => {
+// get a wash by id
+const getWash = async (id, token) => {
   const config = requestConfig("GET", null, token)
 
   try {
-    const res = await fetch(api + "/cars/" + id, config)
+    const res = await fetch(api + "/washes/" + id, config)
       .then((res) => res.json())
       .catch((err) => err)
 
@@ -75,12 +75,12 @@ const getCar = async (id, token) => {
   }
 }
 
-// Get all cars
-const getCars = async(token) => {
+// Get all washes
+const getWashes = async(token) => {
   const config = requestConfig("GET", null, token)
 
   try {
-    const res = await fetch(api + "/cars", config)
+    const res = await fetch(api + "/washes", config)
       .then((res) => res.json())
       .catch((err) => err)
 
@@ -90,13 +90,13 @@ const getCars = async(token) => {
   }
 }
 
-const carService = {
-  insertCar,
-  getUserCars,
-  deleteCar,
-  updateCar,
-  getCar,
-  getCars,
+const washService = {
+  insertWash,
+  getUserWashes,
+  getWasherWashes,
+  deleteWash,
+  getWash,
+  getWashes,
 }
 
-export default carService
+export default washService

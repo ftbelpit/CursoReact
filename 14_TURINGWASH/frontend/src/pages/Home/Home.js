@@ -2,14 +2,13 @@ import "./Home.css";
 
 // hooks
 import { useEffect, useState, useMemo } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // redux
 import { getUserCars } from "../../slices/carSlice";
 import { getWashers } from "../../slices/washerSlice";
 
-import { Link, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import WasherItem from "../../components/WasherItem";
 
@@ -21,8 +20,11 @@ const Home = () => {
   const { washers } = useSelector((state) => state.washer);
   const { cars } = useSelector((state) => state.car);
 
-  const dispatch = useDispatch();
   const { id } = useParams();
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(getUserCars(id));
@@ -32,6 +34,14 @@ const Home = () => {
     dispatch(getWashers());
   }, [dispatch]);
 
+  const handleWashButtonClick = (fabricanteParam, modeloParam, washerName) => {
+    // Combinar os parâmetros em uma única string
+    const params = `fabricanteParam=${encodeURIComponent(fabricanteParam)}&modeloParam=${encodeURIComponent(modeloParam)}&washerName=${encodeURIComponent(washerName)}`;
+    
+    // Redirecionar para a página AddWash com os parâmetros combinados
+    navigate(`/addwash/${user._id}?${params}`);
+  };
+  
   const handleSelectOrder = (e) => {
     const order = e.target.value;
     setSelectedOrder(order);
@@ -78,8 +88,16 @@ const Home = () => {
       <div className="home-options">
         <div>
           <span>Lavar:</span>
-          <select
+          <select 
             className="select-car"
+            onChange={(e) => {
+              const selectedCarId = e.target.value;
+              const selectedCar = cars.find((car) => car._id === selectedCarId);
+          
+              if (selectedCar) {
+                handleWashButtonClick(selectedCar.fabricante, selectedCar.modelo, selectedCar.name);
+              }
+            }}
           >
             <option>Selecione um carro</option>
             {cars &&
@@ -88,7 +106,7 @@ const Home = () => {
                 <option
                   key={car._id}
                   value={car._id}
-                  className="select-button"
+                  className="select-button"             
                 >
                   {car.fabricante} {car.modelo}
                 </option>
@@ -126,14 +144,13 @@ const Home = () => {
             </div>
             <div className="home-assets-buttons">
               <button className="button-assessment">Ver avaliações</button>
-              <Link to={`/washs/${user._id}`}>
-                <button
-                  type="submit"
-                  className="button-wash"
-                >
-                  Lavar meu carro
-                </button>
-              </Link>
+              <button
+                type="submit"
+                className="button-wash"
+                onClick={() => handleWashButtonClick(washer.name)}
+              >
+                Lavar meu carro
+              </button>
             </div>
           </div>
         </div>
@@ -142,4 +159,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Home
