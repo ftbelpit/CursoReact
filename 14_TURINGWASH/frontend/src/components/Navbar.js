@@ -70,7 +70,7 @@ const Navbar = () => {
                   )}
                   {userAuth && (
                     <li>
-                      <NavLink to={`/washs/${userAuth._id}`}>
+                      <NavLink to={`/washes/${userAuth._id}`}>
                         <span>Minhas lavagens</span>
                       </NavLink>
                     </li>

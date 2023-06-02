@@ -10,7 +10,6 @@ const insertWash = async (req, res) => {
   const { fabricante, modelo, name, date } = req.body;
 
   const reqUser = req.user;
-  const reqWasher = req.washer;
 
   try {
     const user = await User.findById(reqUser._id);

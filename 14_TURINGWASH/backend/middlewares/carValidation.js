@@ -16,7 +16,7 @@ const carInsertValidation = () => {
       .isNumeric()
       .withMessage("O ano deve ser númerico.")
       .isLength({ min: 4 })
-      .withMessage("O ano precisa ter no mínimo 4 carateres."),
+      .withMessage("O ano precisa ter no mínimo 4 algarismos."),
   ] 
 }
 
@@ -33,7 +33,7 @@ const carUpdateValidation = () => {
     body("ano")
       .optional()
       .isLength({ min: 4 })
-      .withMessage("O ano precisa ter no mínimo 4 carateres."),
+      .withMessage("O ano precisa ter no mínimo 4 algarismos."),
   ]
 }
 

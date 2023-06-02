@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const moment = require('moment');
+const format = require("date-fns")
+const ptBR = require("date-fns/locale")
 
 const washSchema = new Schema(
   {
@@ -26,7 +27,8 @@ const washSchema = new Schema(
 );
 
 washSchema.methods.getFormattedDate = function () {
-  return moment(this.date).format('DD/MM/YYYY');
+  const formattedDate = format(this.date, 'dd/MM/yyyy', { locale: ptBR });
+  return formattedDate;
 };
 
 const Wash = mongoose.model('Wash', washSchema);

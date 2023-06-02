@@ -31,11 +31,11 @@ const MyCars = () => {
     message: messageCar 
   } = useSelector((state) => state.car)
 
-    // load user data
-    useEffect(() => {
-      dispatch(getUserDetails(id))
-      dispatch(getUserCars(id))
-    }, [dispatch, id])
+  // load user data
+  useEffect(() => {
+    dispatch(getUserDetails(id))
+    dispatch(getUserCars(id))
+  }, [dispatch, id])
 
   const handleDelete = (id) => {
     dispatch(deleteCar(id))

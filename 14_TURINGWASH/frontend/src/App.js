@@ -19,7 +19,7 @@ import Register from './pages/Auth/Register';
 import Home from './pages/Home/Home';
 import MyCars from './pages/MyCars/MyCars';
 import AddCar from './pages/AddCar/AddCar';
-import MyWashs from './pages/MyWashs/MyWashs';
+import MyWashes from './pages/MyWashs/MyWashes';
 import MyUsers from './pages/MyUsers/MyUsers';
 import HomeAdmin from './pages/Home/HomeAdmin';
 import Washer from './pages/Washer/Washer';
@@ -63,7 +63,7 @@ function App() {
             </>
           )}
           <Route path="/:id" element={auth ? <Home /> : <Navigate to="/login" />} />
-          <Route path="/washs/:id" element={auth ? <MyWashs /> : <Navigate to="/login" />}/>
+          <Route path="/washes/:id" element={auth ? <MyWashes /> : <Navigate to="/login" />}/>
           <Route path="/cars/:id" element={auth ? <MyCars /> : <Navigate to="/login" />}/>
           <Route path="/addcar/:id" element={auth ? <AddCar /> : <Navigate to="/login" />} />
           <Route path="/addwash/:id" element={auth ? <AddWash /> : <Navigate to="/login" />} />

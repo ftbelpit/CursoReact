@@ -1,7 +1,6 @@
 import "./Auth.css"
 
 // Components
-import { Link } from "react-router-dom"
 import Message from "../../components/Message"
 
 // Hooks

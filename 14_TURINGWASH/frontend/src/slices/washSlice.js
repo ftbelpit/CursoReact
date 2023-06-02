@@ -31,7 +31,9 @@ export const insertWash = createAsyncThunk(
 export const getUserWashes = createAsyncThunk(
   "wash/userwashes",
   async(id, thunkAPI) => {
-    const data = await washService.getUserWashes(id)
+    const token = thunkAPI.getState().auth.user.token
+
+    const data = await washService.getUserWashes(id, token)
 
     return data
   }

@@ -20,7 +20,7 @@ const validate = require ("../middlewares/handleValidation")
 router.post("/", authGuard, washInsertValidation(), validate, insertWash)
 router.delete("/:id", authGuard, deleteWash)
 router.get("/", authGuard, getAllWashes)
-router.get("/user/:id", getUserWashes)
+router.get("/user/:id", authGuard, getUserWashes)
 router.get("/washer/:id", getWasherWashes)
 router.get("/:id", authGuard, getWashById)
 

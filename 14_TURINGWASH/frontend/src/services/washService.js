@@ -16,8 +16,8 @@ const insertWash = async(data, token) => {
 }
 
 // Get user washes
-const getUserWashes = async(id) => {
-  const config = requestConfig("GET", null)
+const getUserWashes = async(id, token) => {
+  const config = requestConfig("GET", null, token)
   
   try {
     const res = await fetch(api + "/washes/user/" + id, config)

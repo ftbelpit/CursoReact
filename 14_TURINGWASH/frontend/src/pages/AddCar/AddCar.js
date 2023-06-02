@@ -23,14 +23,14 @@ const AddCar = () => {
 
   const resetMessage = useResetComponentMessage(dispatch)
 
-  const { user, loading } = useSelector((state) => state.user)
+  const { loading } = useSelector((state) => state.user)
   const { user: userAuth } = useSelector((state) => state.auth)
   const { 
     loading: loadingCar, 
     message: messageCar,
     error: errorCar
   } = useSelector((state) => state.car)
- 
+
   const [fabricante, setFabricante] = useState("");
   const [modelo, setModelo] = useState("");
   const [ano, setAno] = useState("");
@@ -57,11 +57,15 @@ const AddCar = () => {
     setAno("");
   
     resetMessage();
-
-    setTimeout(() => {
-      navigate(`/cars/${user._id}`);
-    }, 2000); // 2000 milliseconds = 2 seconds 
   };  
+
+  useEffect(() => {
+    if (messageCar) {
+      setTimeout(() => {
+        navigate(`/cars/${userAuth._id}`);
+      }, 2000); // 2000 milliseconds = 2 seconds 
+    }
+  }, [messageCar, navigate, userAuth._id]);
 
   if (loading) {
     return <p>Carregando...</p>;
@@ -119,4 +123,4 @@ const AddCar = () => {
   );
 }
 
-export default AddCar
+export default AddCar;

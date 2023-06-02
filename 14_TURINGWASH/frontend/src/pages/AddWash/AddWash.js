@@ -7,11 +7,10 @@ import Message from "../../components/Message"
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useResetComponentMessage } from "../../hooks/useResetComponentMessage";
 
 // redux
-import { insertWash } from "../../slices/washSlice";
-import { getWasher } from "../../slices/washerSlice";
+import { insertWash, resetMessage } from "../../slices/washSlice";
+import { getWashers } from "../../slices/washerSlice";
 import { getUserCars } from "../../slices/carSlice";
 
 const AddWash = () => {
@@ -19,10 +18,8 @@ const AddWash = () => {
 
   const dispatch = useDispatch()
 
-  const resetMessage = useResetComponentMessage(dispatch)
-
-  const navigate = useNavigate(); // Importar o hook useHistory
-  const location = useLocation(); // Importar o hook useLocation
+  const navigate = useNavigate(); 
+  const location = useLocation();
 
   const params = new URLSearchParams(location.search);
   const fabricanteParam = params.get("fabricanteParam");
@@ -46,8 +43,14 @@ const AddWash = () => {
 
   useEffect(() => {
     dispatch(getUserCars(id))
-    dispatch(getWasher(id))
+    dispatch(getWashers())
   }, [dispatch, id])
+
+  const resetComponentMessage = () => {
+    setTimeout(() => {
+      dispatch(resetMessage());
+    }, 2000);
+  };
 
   const submitHandle = (e) => {
     e.preventDefault();
@@ -65,10 +68,19 @@ const AddWash = () => {
     setModelo("");
     setName("");
     setDate("");
+  
+    resetComponentMessage();
+  };
 
-    resetMessage();
-  };  
+  useEffect(() => {
+    if (messageWash) {
+      setTimeout(() => {
+        navigate(`/washes/${userAuth._id}`);
+      }, 2000); // 2000 milliseconds = 2 seconds 
+    }
+  }, [messageWash, navigate, userAuth._id]);
 
+   
   if (loading) {
     return <p>Carregando...</p>;
   }
@@ -87,7 +99,7 @@ const AddWash = () => {
                 <input
                   type="text"
                   onChange={(e) => setFabricante(e.target.value)}
-                  value={fabricante}
+                  value={fabricante || ""}
                 />
               </div>
               <div className="data-card">
@@ -95,7 +107,7 @@ const AddWash = () => {
                 <input
                   type="text"
                   onChange={(e) => setModelo(e.target.value)}
-                  value={modelo}
+                  value={modelo || ""}
                 />
               </div>
               <div className="data-card">
@@ -103,7 +115,7 @@ const AddWash = () => {
                 <input
                   type="text"
                   onChange={(e) => setName(e.target.value)}
-                  value={name}
+                  value={name || ""}
                 />
               </div>
               <div className="data-card">
@@ -125,7 +137,7 @@ const AddWash = () => {
           {errorWash && <Message msg={errorWash} type="error"/>}
           {messageWash && <Message msg={messageWash} type="success"/>}
         </>
-      )}     
+      )}    
     </div>
   );
 }

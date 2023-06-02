@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 // redux
 import { getUserCars } from "../../slices/carSlice";
 import { getWashers } from "../../slices/washerSlice";
+import { useResetComponentMessage } from "../../hooks/useResetComponentMessage";
 
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -14,6 +15,7 @@ import WasherItem from "../../components/WasherItem";
 
 const Home = () => {
   const [selectedOrder, setSelectedOrder] = useState("name");
+  const [selectedCar, setSelectedCar] = useState(null);
 
   const { user } = useSelector((state) => state.auth);
   const { loading } = useSelector((state) => state.user);
@@ -26,6 +28,8 @@ const Home = () => {
 
   const navigate = useNavigate()
 
+  const resetMessage = useResetComponentMessage(dispatch)
+
   useEffect(() => {
     dispatch(getUserCars(id));
   }, [dispatch, id]);
@@ -34,13 +38,24 @@ const Home = () => {
     dispatch(getWashers());
   }, [dispatch]);
 
-  const handleWashButtonClick = (fabricanteParam, modeloParam, washerName) => {
-    // Combinar os parâmetros em uma única string
-    const params = `fabricanteParam=${encodeURIComponent(fabricanteParam)}&modeloParam=${encodeURIComponent(modeloParam)}&washerName=${encodeURIComponent(washerName)}`;
-    
-    // Redirecionar para a página AddWash com os parâmetros combinados
-    navigate(`/addwash/${user._id}?${params}`);
+  const handleWashButtonClick = (washerName) => {
+    if (selectedCar) {
+      const { fabricante, modelo } = selectedCar;
+  
+      // Combinar os parâmetros em uma única string
+      const params = `fabricanteParam=${encodeURIComponent(
+        fabricante
+      )}&modeloParam=${encodeURIComponent(modelo)}&washerName=${encodeURIComponent(
+        washerName
+      )}`;
+
+      resetMessage();
+  
+      // Redirecionar para a página AddWash com os parâmetros combinados
+      navigate(`/addwash/${user._id}?${params}`);
+    }
   };
+  
   
   const handleSelectOrder = (e) => {
     const order = e.target.value;
@@ -88,15 +103,13 @@ const Home = () => {
       <div className="home-options">
         <div>
           <span>Lavar:</span>
-          <select 
+          <select
             className="select-car"
             onChange={(e) => {
               const selectedCarId = e.target.value;
               const selectedCar = cars.find((car) => car._id === selectedCarId);
-          
-              if (selectedCar) {
-                handleWashButtonClick(selectedCar.fabricante, selectedCar.modelo, selectedCar.name);
-              }
+
+              setSelectedCar(selectedCar);
             }}
           >
             <option>Selecione um carro</option>
