@@ -7,11 +7,10 @@ import Message from "../../components/Message"
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import { useParams, useNavigate } from "react-router-dom";
-import { useResetComponentMessage } from "../../hooks/useResetComponentMessage";
 
 // redux
 import { getUserDetails } from "../../slices/userSlice";
-import { insertCar } from "../../slices/carSlice";
+import { insertCar, resetMessage } from "../../slices/carSlice";
 
 
 const AddCar = () => {
@@ -20,8 +19,6 @@ const AddCar = () => {
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
-
-  const resetMessage = useResetComponentMessage(dispatch)
 
   const { loading } = useSelector((state) => state.user)
   const { user: userAuth } = useSelector((state) => state.auth)
@@ -41,6 +38,12 @@ const AddCar = () => {
     dispatch(getUserDetails(id))
   }, [dispatch, id])
 
+  const resetComponentMessage = () => {
+    setTimeout(() => {
+      dispatch(resetMessage());
+    }, 2000);
+  };
+
   const submitHandle = (e) => {
     e.preventDefault();
   
@@ -56,7 +59,7 @@ const AddCar = () => {
     setModelo("");
     setAno("");
   
-    resetMessage();
+    resetComponentMessage();
   };  
 
   useEffect(() => {
