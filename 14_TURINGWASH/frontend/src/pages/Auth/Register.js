@@ -74,7 +74,7 @@ const Register = () => {
         {loading && <input type="submit" value="Aguarde..." disabled/>}
         {error && <Message msg={error} type="error"/>}
       </form>
-      <p>
+      <p className="click">
         Já tem conta? <Link to="/login">Clique aqui.</Link>
       </p>
     </div>

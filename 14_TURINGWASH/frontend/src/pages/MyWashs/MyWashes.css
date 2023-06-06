@@ -88,11 +88,12 @@ label {
   margin-bottom: 5px;
 }
 
-input,
-textarea {
-  width: 100%;
+.input,
+.textarea {
   padding: 5px;
   margin-bottom: 10px;
+  background-color: #fff;
+  border-radius: 4px;
 }
 
 .button-container button[type="submit"] {
@@ -105,4 +106,8 @@ textarea {
 
 .button-container {
   text-align: center;
+}
+
+.rate-button {
+  margin-right: 5px;
 }

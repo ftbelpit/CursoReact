@@ -58,20 +58,16 @@ const MyCars = () => {
             <span className="modelo">{car.modelo}</span>
             <p className="ano">{car.ano}</p>
           </div>
-          {id === userAuth._id && (
-            <>
-                <button className="delete-button" onClick={() => handleDelete(car._id)}>
-                  Excluir carro
-                </button>
-            </>
-          )}
+          <button className="delete-button" onClick={() => handleDelete(car._id)}>
+            Excluir carro
+          </button>
         </div>  
       ))}
       {errorCar && <Message msg={errorCar} type="error"/>}
       {messageCar && <Message msg={messageCar} type="success"/>}
       <div className="add-button">
         <Link to={`/addcar/${user._id}`}>
-          <button className="add-button">Adicionar carro</button>
+          <button>Adicionar carro</button>
         </Link>
       </div>
     </div>

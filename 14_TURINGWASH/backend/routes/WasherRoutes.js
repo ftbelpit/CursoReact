@@ -4,19 +4,20 @@ const router = express.Router()
 // Controller
 const { 
   insertWasher, 
-  // deleteWasher, 
+  deleteWasher, 
   getAllWashers, 
   // getUserPhotos, 
   getWasherById, 
   updateWasher, 
   // likePhoto,
-  // commentPhoto,
+  assessmentWasher,
   searchWashers
-} = require("../controllers/washerController")
+} = require("../controllers/WasherController")
 
 // Middlewares
-const { washerInsertValidation, washerUpdateValidation } = require("../middlewares/washerValidation")
+const { washerInsertValidation, washerUpdateValidation, commentValidation } = require("../middlewares/washerValidation")
 const authGuardAdmin = require("../middlewares/authGuardAdmin")
+const authGuard = require("../middlewares/authGuard")
 const validate = require ("../middlewares/handleValidation")
 const { imageUpload } = require("../middlewares/imageUpload")
 
@@ -29,13 +30,13 @@ router.post(
   validate, 
   insertWasher
 )
-// router.delete("/:id", authGuardAdmin, deleteWasher)
+router.delete("/:id", authGuardAdmin, deleteWasher)
 router.get("/", getAllWashers)
 // router.get("/user/:id", authGuard, getUserPhotos)
 router.get("/search", authGuardAdmin, searchWashers)
 router.get("/:id", authGuardAdmin, getWasherById)
 router.put("/:id", authGuardAdmin, washerUpdateValidation(), validate, updateWasher)
 // router.put("/like/:id", authGuard, likePhoto)
-// router.put("/comment/:id", authGuard, commentValidation(), validate, commentPhoto)
+router.put("/assessment", authGuard, commentValidation(), validate, assessmentWasher)
 
 module.exports = router

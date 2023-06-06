@@ -51,7 +51,7 @@ const Navbar = () => {
                 </NavLink>
               </li>
               <li>
-                <span onClick={handleLogoutAdmin}>Sair</span>
+                <span className="exit" onClick={handleLogoutAdmin}>Sair</span>
               </li>
             </ul>
           </>
@@ -76,7 +76,7 @@ const Navbar = () => {
                     </li>
                   )}
                   <li>
-                    <span onClick={handleLogout}>Sair</span>
+                    <span className="exit" onClick={handleLogout}>Sair</span>
                   </li>
                 </ul>
               </>

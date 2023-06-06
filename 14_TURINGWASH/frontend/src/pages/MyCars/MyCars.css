@@ -17,20 +17,6 @@
   border-radius: 10px;
 }
 
-.delete-button {
-  border-radius: 10px;
-  background-color: #FF9B9B;
-  border: none;
-  width: 125px;
-  height: 30px;
-  padding-top: 5px;
-  margin-top: 40px;
-}
-
-.buttons {
-  display: flex;
-  flex-direction: column;
-}
 span {
   font-weight: bold;
 }

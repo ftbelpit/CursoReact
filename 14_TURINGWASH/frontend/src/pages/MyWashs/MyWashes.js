@@ -1,4 +1,5 @@
 import "./MyWashes.css"
+
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
@@ -11,18 +12,21 @@ import { useEffect, useState, useRef } from "react";
 // redux
 import { deleteWash, getUserWashes, resetMessage } from "../../slices/washSlice";
 import { useParams } from "react-router-dom";
-import { getWashers } from "../../slices/washerSlice";
+import { getWashers, assessment } from "../../slices/washerSlice";
+import { useResetComponentMessage } from "../../hooks/useResetComponentMessage";
 
 const MyWashes = () => {
   const { id } = useParams()
 
   const dispatch = useDispatch()
 
+  const resetWasher = useResetComponentMessage(dispatch)
+
   const currentDate = new Date();
 
   const [showPopup, setShowPopup] = useState(false);
   const [score, setScore] = useState("");
-  const [assessments, setAssessments] = useState("");
+  const [comment, setComment] = useState("");
   const popupRef = useRef(null);
 
   const { 
@@ -34,6 +38,7 @@ const MyWashes = () => {
     error: errorWash, 
     message: messageWash 
   } = useSelector((state) => state.wash)
+  const {washer} = useSelector((state) => state.washer)
 
   useEffect(() => {
     dispatch(getUserWashes(id))
@@ -60,21 +65,28 @@ const MyWashes = () => {
     }, 2000);
   };
 
-const handleRateButtonClick = () => {
+  const handleRateButtonClick = () => {
     setShowPopup(true);
   };
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-
-    // Lógica para enviar o score e assessments para o servidor
-    // ...
-
-    // Limpar o formulário e fechar o pop-up
+    // insert a assessment
+  const handleAssessment = (e) => {
+    e.preventDefault();
+  
+    const assessmentData = {
+      score: score,
+      comment: comment,
+      id: washes.washerId
+    };
+  
+    dispatch(assessment(assessmentData));
+  
     setScore("");
-    setAssessments("");
+    setComment("");
     setShowPopup(false);
-  };
+  
+    resetWasher();
+  };    
 
   const handleDelete = (id) => {
     dispatch(deleteWash(id))
@@ -114,8 +126,9 @@ const handleRateButtonClick = () => {
               <span className="wash-price">R$ {wash.washerPrice}</span>
               <span className="wash-date">
                 {showRateButton && (
-                  <button className="rate-button" onClick={handleRateButtonClick}>
-                    Avaliar lavador
+                  <button className="rate-button" 
+                  onClick={handleRateButtonClick}>
+                    Avaliar
                   </button>
                 )}
               {dataFormatada}
@@ -128,35 +141,32 @@ const handleRateButtonClick = () => {
               </button>
             </div> */}
             {showPopup && (
-            <div className="popup">
-              <div className="popup-content" ref={popupRef}>
-                <h3>Avaliar Lavador</h3>
-                <form onSubmit={handleFormSubmit}>
-                  <label htmlFor="score">Nota (0 a 5):</label>
-                  <input
-                    type="number"
-                    id="score"
-                    min={0}
-                    max={5}
-                    value={score}
-                    onChange={(event) => setScore(event.target.value)}
-                  />
-                  <label htmlFor="assessments">Avaliação:</label>
-                  <textarea
-                    id="assessments"
-                    value={assessments}
-                    onChange={(event) => setAssessments(event.target.value)}
-                    maxLength={200}
-                  />
-                  <div className="button-container">
-                    <button type="submit">Enviar</button>
-                  </div>
-                </form>
+              <div className="popup">
+                <div className="popup-content" ref={popupRef}>
+                  <h3>Avaliar Lavador</h3>
+                  <form onSubmit={handleAssessment}>
+                    <label >Nota (0 a 5):</label>
+                    <input
+                      className="input"
+                      type="number"
+                      value={score}
+                      onChange={(e) => setScore(e.target.value)}
+                    />
+                    <label >Avaliação:</label>
+                    <textarea
+                      className="textarea"
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                      maxLength={200}
+                    />
+                    <div className="button-container">
+                      <input type="submit" value="Enviar" />
+                    </div>
+                  </form>
+                </div>
               </div>
-        </div>
-      )}
+            )}
           </div>
-          
         )
       })}
       {errorWash && <Message msg={errorWash} type="error"/>}

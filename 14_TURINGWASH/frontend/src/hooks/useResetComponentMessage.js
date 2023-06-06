@@ -1,5 +1,5 @@
 // redux
-import { resetMessage } from "../slices/carSlice";
+import { resetMessage } from "../slices/washerSlice";
 
 export const useResetComponentMessage = (dispatch) => {
   return () => {

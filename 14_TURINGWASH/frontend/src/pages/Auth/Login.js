@@ -56,7 +56,7 @@ const Login = () => {
         {loading && <input type="submit" value="Aguarde..." disabled/>}
         {error && <Message msg={error} type="error"/>}
       </form>
-      <p>
+      <p className="click">
         Não tem uma conta ? <Link to="/register">Clique aqui</Link>
       </p>
     </div>

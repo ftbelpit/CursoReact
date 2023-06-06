@@ -17,18 +17,6 @@ const washerInsertValidation = () => {
       .withMessage("O nome é obrigatório.")
       .isLength({ min: 2 })
       .withMessage("O nome precisa ter no minímo 2 caracteres."),
-    body("score")
-      .optional()
-      .isString()
-      .withMessage("Insira a nota do lavador.")
-      .isFloat({ min: 0, max: 5 })
-      .withMessage("A nota deve estar entre 0 e 5."),
-    body("assessments")
-      .optional()
-      .isString()
-      .withMessage("Insira as avaliações do lavador.")
-      .isLength({ min: 1 })
-      .withMessage("Se o lavador tiver avalições insira a quantidade."),
     body("price")
       .isString()
       .withMessage("O preço do lavador é obrigatório.")
@@ -55,16 +43,21 @@ const washerUpdateValidation = () => {
   ]
 }
 
-// const commentValidation = () => {
-//   return [
-//     body("comment")
-//       .isString()
-//       .withMessage("O comentário é obrigatório."),
-//   ]
-// }
+const commentValidation = () => {
+  return [
+    body("score")
+      .optional()
+      .isFloat({ min: 0, max: 5 })
+      .withMessage("A nota deve estar entre 0 e 5."),
+    body("comment")
+      .optional()
+      .isString()
+      .withMessage("Avalie o lavador."),
+  ];
+};
 
 module.exports = {
   washerInsertValidation,
   washerUpdateValidation,
-  // commentValidation
+  commentValidation
 }

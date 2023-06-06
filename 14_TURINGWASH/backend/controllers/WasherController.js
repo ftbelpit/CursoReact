@@ -1,11 +1,12 @@
 const Washer = require("../models/Washer")
 const Admin = require("../models/Admin")
+const User = require("../models/User")
 
 const mongoose = require("mongoose")
 
 // Insert a washer
 const insertWasher = async(req, res) => {
-  const { name, score, assessments, price } = req.body
+  const { name, price } = req.body
   const image = req.file.filename
 
   const reqAdmin = req.admin
@@ -16,8 +17,6 @@ const insertWasher = async(req, res) => {
   const newWasher = await Washer.create({
     image,
     name,
-    score,
-    assessments,
     price,
     adminId: admin._id,
     adminName: admin.name_admin
@@ -35,40 +34,40 @@ const insertWasher = async(req, res) => {
 }
 
 // Remove a photo from DB
-// const deletePhoto = async(req, res) => {
-//   const {id} = req.params 
+const deleteWasher = async(req, res) => {
+  const {id} = req.params 
 
-//   const reqUser = req.user 
-//   try {
-//     const photo = await Photo.findById(new mongoose.Types.ObjectId(id))
+  const reqAdmin = req.admin 
+  try {
+    const washer = await Washer.findById(new mongoose.Types.ObjectId(id))
 
-//     // Check if photo exists
-//     if(!photo) {
-//       res.status(404).json({ errors: ["Foto não encontrada!"] })
-//       return
-//     }
+    // Check if photo exists
+    if(!washer) {
+      res.status(404).json({ errors: ["Foto não encontrada!"] })
+      return
+    }
 
-//     // Check if photo belongs to user
-//     if(!photo.userId.equals(reqUser._id)) {
-//       res
-//         .status(422)
-//         .json({ 
-//           errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]
-//         })
-//     }
+    // Check if photo belongs to user
+    if(!washer.adminId.equals(reqAdmin._id)) {
+      res
+        .status(422)
+        .json({ 
+          errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]
+        })
+    }
 
-//     await Photo.findByIdAndDelete(photo._id)
+    await Washer.findByIdAndDelete(washer._id)
 
-//     res
-//       .status(200)
-//       .json({ 
-//         id: photo._id, message: "Foto excluída com sucesso." 
-//       })
-//   } catch (error) {
-//       res.status(404).json({ errors: ["Foto não encontrada!"] })
-//       return
-//   }
-// }
+    res
+      .status(200)
+      .json({ 
+        id: Washer._id, message: "Lavador excluído com sucesso com sucesso." 
+      })
+  } catch (error) {
+      res.status(404).json({ errors: ["Foto não encontrada!"] })
+      return
+  }
+}
 
 // Get all washers
 const getAllWashers = async(req, res) => {
@@ -142,69 +141,49 @@ const updateWasher = async(req, res) => {
   res.status(200).json({ washer, message: "Lavador atualizado com sucesso!" })
 }
 
-// Like functionality
-// const likePhoto = async(req, res) => {
-//   const { id } = req.params
-  
-//   const reqUser = req.user
+// Assessments functionality
+const assessmentWasher = async (req, res) => {
+  const { id } = req.params;
+  const { score, comment } = req.body;
 
-//   const photo = await Photo.findById(id)
+  const reqUser = req.user;
 
-//   // Check if photo exists
-//   if (!photo) {
-//     res.status(404).json({ errors: ["Foto não encontrada"] })
-//     return
-//   }
+  try {
+    const user = await User.findById(reqUser._id);
 
-//   // Check if user alredy liked the photo
-//   if (photo.likes.includes(reqUser._id)) {
-//     res.status(422).json({ errors: ["Você já curtiu a foto."] })
-//     return
-//   }
+    const washer = await Washer.findById(id);
 
-//   // Put user id in likes array
-//   photo.likes.push(reqUser._id)
-  
-//   photo.save()
-  
-//   res
-//     .status(200)
-//     .json({ photoId: id, userId: reqUser._id, message: "A foto foi curtida."})
-// }
+    if (!washer) {
+      res.status(404).json({ errors: ["Lavador não encontrado"] });
+      return;
+    }
 
-// Comment functionality
-// const commentPhoto = async(req, res) => {
-//   const {id} = req.params
-//   const {comment} = req.body
+    // Criar objeto de avaliação
+    const userComment = {
+      score,
+      comment,
+      userName: user.name,
+      userId: user._id,
+    };
 
-//   const reqUser = req.user
+    // Adicionar avaliação ao array assessments
+    washer.assessments.push(userComment);
 
-//   const user = await User.findById(reqUser._id)
+    // Incrementar o contador de avaliações (count)
+    washer.count += 1;
 
-//   const photo = await Photo.findById(id)
+    // Salvar o objeto Washer atualizado no banco de dados
+    await washer.save();
 
-//   if (!photo) {
-//     res.status(404).json({ errors: ["Foto não encontrada"] })
-//     return
-//   }
+    res.status(200).json({
+      comment: userComment,
+      message: "Avaliação foi adicionada com sucesso!",
+    });
+  } catch (error) {
+    res.status(500).json({ errors: ["Ocorreu um erro ao adicionar a avaliação"] });
+  }
+};
 
-//   // Put comment in the array comments
-//   const userComment = {
-//     comment,
-//     userName: user.name,
-//     userImage: user.profileImage,
-//     userId: user._id
-//   }
-
-//   photo.comments.push(userComment)
-
-//   await photo.save()
-
-//   res.status(200).json({
-//     comment: userComment,
-//     message: "O comentário foi adicionado com sucesso!",
-//   })
-// }
 
 // Search washers by name
 const searchWashers = async(req, res) => {
@@ -215,12 +194,12 @@ const searchWashers = async(req, res) => {
 
 module.exports = {
   insertWasher,
-  // deleteWasher,
+  deleteWasher,
   getAllWashers,
   // getUserPhotos,
   getWasherById,
   updateWasher,
   // likePhoto,
-  // commentPhoto,
+  assessmentWasher,
   searchWashers
 }

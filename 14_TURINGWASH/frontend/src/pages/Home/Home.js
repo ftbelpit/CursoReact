@@ -151,7 +151,7 @@ const Home = () => {
           <div className="home-assets">
             <div className="home-assets-detail">
               <span className="home-note">
-                Nota {washer.score} ({washer.assessments} avaliações)
+                Nota {washer.average} ({washer.count} avaliações)
               </span>
               <span className="home-price">R$ {washer.price}</span>
             </div>

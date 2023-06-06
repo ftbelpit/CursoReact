@@ -75,12 +75,28 @@ const searchWashers = async(query, token_admin) => {
   }
 }
 
+// add assessment to a washer
+const assessment = async(data, id, token) => {
+  const config = requestConfig("PUT", data, token)
+
+  try {
+    const res = await fetch(api + "/washers/assessment/" + id, config)
+      .then((res) => res.json())
+      .catch((err) => err)
+
+    return res
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const washerService = {
   insertWasher,
   updateWasher,
   getWasher,
   getWashers,
-  searchWashers
+  searchWashers,
+  assessment
 }
 
 export default washerService
