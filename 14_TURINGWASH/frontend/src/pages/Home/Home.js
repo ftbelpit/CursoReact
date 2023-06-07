@@ -9,7 +9,7 @@ import { getUserCars } from "../../slices/carSlice";
 import { getWashers } from "../../slices/washerSlice";
 import { useResetComponentMessage } from "../../hooks/useResetComponentMessage";
 
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 
 import WasherItem from "../../components/WasherItem";
 
@@ -91,10 +91,6 @@ const Home = () => {
     return <p>Carregando...</p>;
   }
 
-  if (washers.length === 0) {
-    return <p>Não há lavadores disponíveis.</p>;
-  }
-
   return (
     <div id="home">
       <div className="home-title">
@@ -140,34 +136,47 @@ const Home = () => {
           </select>
         </div>
       </div>
-      {orderedWashers.map((washer) => (
-        <div className="home-card" key={washer._id}>
-          <div className="home-profile">
-            <div className="img">
-              <WasherItem washer={washer} />
+      {orderedWashers.map((washer, index) => {
+        let totalScore = 0;
+
+        washer.assessments.forEach((assessment) => {
+          totalScore += assessment.score;
+        });
+
+        const averageScore = totalScore / washer.assessments.length;
+
+        return (
+          <div className="home-card" key={washer._id}>
+            <div className="home-profile">
+              <div className="img">
+                <WasherItem washer={washer} />
+              </div>
+              <p className="name">{washer.name}</p>
             </div>
-            <p className="name">{washer.name}</p>
+            <div className="home-assets">
+              <div className="home-assets-detail">
+                <span className="home-note">
+                  Média de Score: {averageScore.toFixed(2)} ({washer.assessments.length} avaliações)
+                </span>
+                <span className="home-price">R$ {washer.price}</span>
+              </div>
+              <div className="home-assets-buttons">
+                <Link to={`/assessments/${washer._id}`}>
+                  <button className="button-assessment">Ver avaliações</button>
+                </Link>
+                <button
+                  type="submit"
+                  className="button-wash"
+                  onClick={() => handleWashButtonClick(washer.name)}
+                >
+                  Lavar meu carro
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="home-assets">
-            <div className="home-assets-detail">
-              <span className="home-note">
-                Nota {washer.average} ({washer.count} avaliações)
-              </span>
-              <span className="home-price">R$ {washer.price}</span>
-            </div>
-            <div className="home-assets-buttons">
-              <button className="button-assessment">Ver avaliações</button>
-              <button
-                type="submit"
-                className="button-wash"
-                onClick={() => handleWashButtonClick(washer.name)}
-              >
-                Lavar meu carro
-              </button>
-            </div>
-          </div>
-        </div>
-      ))}
+        );
+      })}
+
     </div>
   );
 };

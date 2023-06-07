@@ -12,7 +12,7 @@ import { useEffect, useState, useRef } from "react";
 // redux
 import { deleteWash, getUserWashes, resetMessage } from "../../slices/washSlice";
 import { useParams } from "react-router-dom";
-import { getWashers, assessment } from "../../slices/washerSlice";
+import { getWashers, assessment} from "../../slices/washerSlice";
 import { useResetComponentMessage } from "../../hooks/useResetComponentMessage";
 
 const MyWashes = () => {
@@ -21,13 +21,6 @@ const MyWashes = () => {
   const dispatch = useDispatch()
 
   const resetWasher = useResetComponentMessage(dispatch)
-
-  const currentDate = new Date();
-
-  const [showPopup, setShowPopup] = useState(false);
-  const [score, setScore] = useState("");
-  const [comment, setComment] = useState("");
-  const popupRef = useRef(null);
 
   const { 
     // user, 
@@ -38,7 +31,14 @@ const MyWashes = () => {
     error: errorWash, 
     message: messageWash 
   } = useSelector((state) => state.wash)
-  const {washer} = useSelector((state) => state.washer)
+  // const {washer} = useSelector((state) => state.washer)
+
+  const currentDate = new Date();
+
+  const [showPopup, setShowPopup] = useState(false);
+  const [score, setScore] = useState("");
+  const [comment, setComment] = useState("");
+  const popupRef = useRef(null);
 
   useEffect(() => {
     dispatch(getUserWashes(id))
@@ -149,15 +149,15 @@ const MyWashes = () => {
                     <input
                       className="input"
                       type="number"
-                      value={score}
                       onChange={(e) => setScore(e.target.value)}
+                      value={score || ""}
                     />
                     <label >Avaliação:</label>
                     <textarea
                       className="textarea"
-                      value={comment}
                       onChange={(e) => setComment(e.target.value)}
                       maxLength={200}
+                      value={comment || ""}
                     />
                     <div className="button-container">
                       <input type="submit" value="Enviar" />

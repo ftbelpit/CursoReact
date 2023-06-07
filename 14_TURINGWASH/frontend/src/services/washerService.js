@@ -31,8 +31,8 @@ const updateWasher = async (data, id, token_admin) => {
 }
 
 // get a washer by id
-const getWasher = async (id, token_admin) => {
-  const config = requestConfig("GET", null, token_admin)
+const getWasher = async (id) => {
+  const config = requestConfig("GET", null)
 
   try {
     const res = await fetch(api + "/washers/" + id, config)
@@ -80,7 +80,7 @@ const assessment = async(data, id, token) => {
   const config = requestConfig("PUT", data, token)
 
   try {
-    const res = await fetch(api + "/washers/assessment/" + id, config)
+    const res = await fetch(api + "/washers/assessments/" + id, config)
       .then((res) => res.json())
       .catch((err) => err)
 

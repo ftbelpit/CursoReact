@@ -34,9 +34,9 @@ router.delete("/:id", authGuardAdmin, deleteWasher)
 router.get("/", getAllWashers)
 // router.get("/user/:id", authGuard, getUserPhotos)
 router.get("/search", authGuardAdmin, searchWashers)
-router.get("/:id", authGuardAdmin, getWasherById)
+router.get("/:id", getWasherById)
 router.put("/:id", authGuardAdmin, washerUpdateValidation(), validate, updateWasher)
 // router.put("/like/:id", authGuard, likePhoto)
-router.put("/assessment", authGuard, commentValidation(), validate, assessmentWasher)
+router.put("/assessments/:id", authGuard, commentValidation(), validate, assessmentWasher)
 
 module.exports = router

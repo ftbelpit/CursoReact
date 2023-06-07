@@ -25,6 +25,7 @@ import HomeAdmin from './pages/Home/HomeAdmin';
 import Washer from './pages/Washer/Washer';
 import UserCars from './pages/UsersCars/UserCars';
 import AddWash from './pages/AddWash/AddWash';
+import Assessments from './pages/Assessments/Assessments';
 
 function App() {
   const {auth, loading} = useAuth()
@@ -62,6 +63,7 @@ function App() {
               )}
             </>
           )}
+          <Route path="/assessments/:id" element={auth || authAdmin ? <Assessments /> : <Navigate to="/login" />} />
           <Route path="/:id" element={auth ? <Home /> : <Navigate to="/login" />} />
           <Route path="/washes/:id" element={auth ? <MyWashes /> : <Navigate to="/login" />}/>
           <Route path="/cars/:id" element={auth ? <MyCars /> : <Navigate to="/login" />}/>

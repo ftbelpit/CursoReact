@@ -144,7 +144,7 @@ const updateWasher = async(req, res) => {
 // Assessments functionality
 const assessmentWasher = async (req, res) => {
   const { id } = req.params;
-  const { score, comment } = req.body;
+  const { score, assessment } = req.body;
 
   const reqUser = req.user;
 
@@ -159,24 +159,21 @@ const assessmentWasher = async (req, res) => {
     }
 
     // Criar objeto de avaliação
-    const userComment = {
+    const userAvalition = {
       score,
-      comment,
+      assessment,
       userName: user.name,
       userId: user._id,
     };
 
     // Adicionar avaliação ao array assessments
-    washer.assessments.push(userComment);
-
-    // Incrementar o contador de avaliações (count)
-    washer.count += 1;
+    washer.assessments.push(userAvalition);
 
     // Salvar o objeto Washer atualizado no banco de dados
     await washer.save();
 
     res.status(200).json({
-      comment: userComment,
+      assessment: userAvalition,
       message: "Avaliação foi adicionada com sucesso!",
     });
   } catch (error) {
