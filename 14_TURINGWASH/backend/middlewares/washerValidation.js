@@ -46,7 +46,6 @@ const washerUpdateValidation = () => {
 const commentValidation = () => {
   return [
     body("score")
-      .optional()
       .isFloat({ min: 0, max: 5 })
       .withMessage("A nota deve estar entre 0 e 5."),
     body("assessment")

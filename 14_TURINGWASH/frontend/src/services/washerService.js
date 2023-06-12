@@ -76,7 +76,7 @@ const searchWashers = async(query, token_admin) => {
 }
 
 // add assessment to a washer
-const assessment = async(data, id, token) => {
+const assessments = async(data, id, token) => {
   const config = requestConfig("PUT", data, token)
 
   try {
@@ -96,7 +96,7 @@ const washerService = {
   getWasher,
   getWashers,
   searchWashers,
-  assessment
+  assessments
 }
 
 export default washerService

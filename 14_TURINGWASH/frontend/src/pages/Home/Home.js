@@ -136,12 +136,12 @@ const Home = () => {
           </select>
         </div>
       </div>
-      {orderedWashers.map((washer, index) => {
+      {orderedWashers.map((washer) => {
         let totalScore = 0;
 
         washer.assessments.forEach((assessment) => {
-          totalScore += assessment.score;
-        });
+          totalScore += parseInt(assessment.score, 10); // ou parseFloat(assessment.score) se for um número de ponto flutuante
+        });        
 
         const averageScore = totalScore / washer.assessments.length;
 
@@ -156,7 +156,7 @@ const Home = () => {
             <div className="home-assets">
               <div className="home-assets-detail">
                 <span className="home-note">
-                  Média de Score: {averageScore.toFixed(2)} ({washer.assessments.length} avaliações)
+                  Nota: {averageScore.toFixed(2)} ({washer.assessments.length} avaliações)
                 </span>
                 <span className="home-price">R$ {washer.price}</span>
               </div>

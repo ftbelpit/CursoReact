@@ -148,37 +148,30 @@ const assessmentWasher = async (req, res) => {
 
   const reqUser = req.user;
 
-  try {
-    const user = await User.findById(reqUser._id);
+  const user = await User.findById(reqUser._id);
 
-    const washer = await Washer.findById(id);
+  const washer = await Washer.findById(id);
 
-    if (!washer) {
-      res.status(404).json({ errors: ["Lavador não encontrado"] });
-      return;
-    }
-
-    // Criar objeto de avaliação
-    const userAvalition = {
-      score,
-      assessment,
-      userName: user.name,
-      userId: user._id,
-    };
-
-    // Adicionar avaliação ao array assessments
-    washer.assessments.push(userAvalition);
-
-    // Salvar o objeto Washer atualizado no banco de dados
-    await washer.save();
-
-    res.status(200).json({
-      assessment: userAvalition,
-      message: "Avaliação foi adicionada com sucesso!",
-    });
-  } catch (error) {
-    res.status(500).json({ errors: ["Ocorreu um erro ao adicionar a avaliação"] });
+  if (!washer) {
+    res.status(404).json({ errors: ["Lavador não encontrado"] });
+    return;
   }
+
+  const userAvalition = {
+    score,
+    assessment,
+    userName: user.name,
+    userId: user._id,
+  };
+
+  washer.assessments.push(userAvalition);
+
+  await washer.save();
+
+  res.status(200).json({
+    assessment: userAvalition,
+    message: "Avaliação foi adicionada com sucesso!",
+  });
 };
 
 

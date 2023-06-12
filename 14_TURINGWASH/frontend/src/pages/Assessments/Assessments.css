@@ -29,3 +29,68 @@
 .assessment-info .name {
   font-size: 1.5em;
 }
+
+.washer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+.washer img{
+  width: 25vw;
+  height: 30vh;
+}
+
+.rate-button {
+  width: 25vw;
+  margin: 10px 0;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(240, 240, 240, 0.863); /* Tom de cinza claro */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-content {
+  background-color: #fff;
+  padding: 20px;
+  max-width: 400px;
+}
+
+form {
+  margin-top: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input,
+.textarea {
+  padding: 5px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.button-container button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+}
+
+.button-container {
+  text-align: center;
+}
