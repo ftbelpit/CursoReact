@@ -43,32 +43,39 @@ const HomeAdmin = () => {
        <div className="home-title">
           <h2>Lavadores cadastrados</h2>
       </div>
-      {washers && washers.length > 0 ? (
-        washers.map((washer) => (
+      {washers.map((washer) => {
+        let totalScore = 0;
+
+        washer.assessments.forEach((assessment) => {
+          totalScore += parseInt(assessment.score, 10); // ou parseFloat(assessment.score) se for um número de ponto flutuante
+        });        
+
+        const averageScore = totalScore / washer.assessments.length;
+
+        return (
           <div className="home-card" key={washer._id}>
             <div className="home-profile">
               <div className="img">
-                <WasherItem washer={washer}/>
+                <WasherItem washer={washer} />
               </div>
               <p className="name">{washer.name}</p>
             </div>
-            <div className="home-assets">                    
+            <div className="home-assets">
               <div className="home-assets-detail">
-                <span className="home-note">Nota {washer.score} ({washer.assessments} avaliações)</span>
-                <span className="home-price">R$ {washer.price}</span>        
-              </div>            
+                <span className="home-note">
+                  Nota: {averageScore.toFixed(2)} ({washer.assessments.length} avaliações)
+                </span>
+                <span className="home-price">R$ {washer.price}</span>
+              </div>
               <div className="home-assets-buttons">
-                <button className="button-assessment">Ver avaliações</button>
-              </div> 
-            </div> 
-            {/* <Link className="btn" to={`/photos/${photo._id}`}>Ver mais</Link> */}
+                <Link to={`/assessments/${washer._id}`}>
+                  <button className="button-assessment">Ver avaliações</button>
+                </Link>               
+              </div>
+            </div>
           </div>
-        ))
-      ) : (
-        <h2 className="no-photos">
-          Ainda não há lavadores cadastrados.{" "}
-        </h2>
-      )}
+        );
+      })}
       <div>
         <Link to="/washers">
           <button>Cadastrar lavador</button>

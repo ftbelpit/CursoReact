@@ -13,6 +13,8 @@ const Assessments = () => {
 
   const dispatch = useDispatch();
 
+  const {user} = useSelector((state) => state.auth)
+
   const { loading } = useSelector((state) => state.user);
 
   const {
@@ -78,16 +80,18 @@ const Assessments = () => {
       <h2 className="profile-title">Avaliações do Lavador</h2>
       <div className="washer">
         <WasherItem washer={washer} />
-        <button className="rate-button" onClick={handleRateButtonClick}>
-          {handleButtonText()}
-        </button>
+        {user && (
+          <button className="rate-button" onClick={handleRateButtonClick}>
+            {handleButtonText()}
+          </button>
+        )}
       </div>
       <div>
         {washer.assessments && (
           <>
             {showForm && (
               <div className="form-container">
-                <h3>Avaliar Lavador</h3>
+                <h2>Avaliar Lavador</h2>
                 <form onSubmit={handleAssessment}>
                   <label>Nota (0 a 5):</label>
                   <input
@@ -116,14 +120,16 @@ const Assessments = () => {
             )}
             <h3>Avaliações: ({washer.assessments.length})</h3>
             {washer.assessments.length === 0 && <p>Não há avaliações...</p>}
-            {washer.assessments.map((assessment, index) => (
-              <div className="assessment-user" key={index}>
-                <div className="assessment-info">
-                  <span className="name">Nome do usuário: {assessment.userName}</span>
-                  <span className="score">Nota: {assessment.score}</span>
-                  <span className="assessment">Avaliação: {assessment.assessment}</span>
+            {washer.assessments.map(( assessment , index) => (
+              assessment && (
+                <div className="assessment-user" key={`${assessment._id}-${index}`}>
+                  <div className="assessment-info">
+                    <span className="name">Nome do usuário: {assessment.userName}</span>
+                    <span className="score">Nota: {assessment.score}</span>
+                    <span className="assessment">Avaliação: {assessment.assessment}</span>
+                  </div>
                 </div>
-              </div>
+              )
             ))}
           </>
         )}

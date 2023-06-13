@@ -86,7 +86,7 @@ const deleteWash = async(req, res) => {
     res
       .status(200)
       .json({ 
-        id: wash._id, message: "Lavagem excluída com sucesso." 
+        id: wash._id, message: "Lavagem desmarcada com sucesso." 
       })
   } catch (error) {
       res.status(404).json({ errors: ["Lavagem não encontrada!"] })

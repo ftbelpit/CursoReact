@@ -62,20 +62,35 @@ const Home = () => {
     setSelectedOrder(order);
   };
 
-  const orderedWashers = useMemo(() => {
-    // Faça uma cópia dos lavadores para evitar a modificação do estado original
-    const washersCopy = [...washers];
+  const calculateAverageScore = (assessments) => {
+    if (assessments.length === 0) {
+      return 0;
+    }
+  
+    const totalScore = assessments.reduce(
+      (accumulator, assessment) => accumulator + assessment.score,
+      0
+    );
+  
+    return totalScore / assessments.length;
+  };
 
-    // Ordenar os lavadores com base na opção selecionada
+  const orderedWashers = useMemo(() => {
+    const washersCopy = [...washers];
+  
     switch (selectedOrder) {
       case "name":
         washersCopy.sort((a, b) => a.name.localeCompare(b.name));
         break;
       case "score":
-        washersCopy.sort((a, b) => b.score - a.score);
+        washersCopy.sort((a, b) => {
+          const averageScoreA = calculateAverageScore(a.assessments);
+          const averageScoreB = calculateAverageScore(b.assessments);
+          return averageScoreB - averageScoreA;
+        });
         break;
       case "assessments":
-        washersCopy.sort((a, b) => b.assessments - a.assessments);
+        washersCopy.sort((a, b) => b.assessments.length - a.assessments.length);
         break;
       case "price":
         washersCopy.sort((a, b) => b.price - a.price);
@@ -83,9 +98,10 @@ const Home = () => {
       default:
         break;
     }
-
+  
     return washersCopy;
   }, [washers, selectedOrder]);
+
 
   if (loading) {
     return <p>Carregando...</p>;

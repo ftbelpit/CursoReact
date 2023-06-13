@@ -109,10 +109,11 @@ div .delete-button {
   border-radius: 10px;
   background-color: #FF9B9B;
   border: none;
-  width: 125px;
+  width: 160px;
   height: 30px;
   padding-top: 5px;
   margin-top: 40px;
+  margin-right: 5px;
 }
 
 div .delete-button:hover {

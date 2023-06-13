@@ -9,10 +9,9 @@ import { Link, useParams } from "react-router-dom"
 // hooks
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { useResetComponentMessage } from "../../hooks/useResetComponentMessage"
 
 // redux
-import { deleteCar, getUserCars } from "../../slices/carSlice"
+import { deleteCar, getUserCars, resetMessage } from "../../slices/carSlice"
 import { getUserDetails } from "../../slices/userSlice"
 
 const MyCars = () => {
@@ -21,10 +20,8 @@ const MyCars = () => {
 
   const dispatch = useDispatch()
 
-  const resetMessage = useResetComponentMessage(dispatch)
-
   const { user, loading } = useSelector((state) => state.user)
-  const { user: userAuth } = useSelector((state) => state.auth)
+  // const { user: userAuth } = useSelector((state) => state.auth)
   const { 
     cars, 
     error: errorCar, 
@@ -37,9 +34,15 @@ const MyCars = () => {
     dispatch(getUserCars(id))
   }, [dispatch, id])
 
+  const resetComponentMessage = () => {
+    setTimeout(() => {
+      dispatch(resetMessage());
+    }, 2000);
+  };
+
   const handleDelete = (id) => {
     dispatch(deleteCar(id))
-    resetMessage()
+    resetComponentMessage()
   }
 
   if(loading) {

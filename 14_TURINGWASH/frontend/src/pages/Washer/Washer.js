@@ -13,8 +13,6 @@ const Washer = () => {
   );
 
   const [name, setName] = useState("");
-  const [score, setScore] = useState("");
-  const [assessments, setAssessments] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState(null); // Alterado para null
 
@@ -36,8 +34,6 @@ const Washer = () => {
 
     const washerData = {
       name,
-      score,
-      assessments,
       price,
       image
     };
@@ -52,8 +48,6 @@ const Washer = () => {
     dispatch(insertWasher(formData));
 
     setName("");
-    setScore("");
-    setAssessments("");
     setPrice("");
     setImage(null); // Resetar para null após o envio do formulário
 
@@ -80,22 +74,6 @@ const Washer = () => {
               placeholder="Insira o nome"
               onChange={(e) => setName(e.target.value)}
               value={name || ""}
-            />
-
-            <label>Nota</label>
-            <input
-              type="text"
-              placeholder="Insira a nota de 0 a 5"
-              onChange={(e) => setScore(e.target.value)}
-              value={score || ""}
-            />
-
-            <label>Avaliações</label>
-            <input
-              type="text"
-              placeholder="Insira a quantidade de avaliações"
-              onChange={(e) => setAssessments(e.target.value)}
-              value={assessments || ""}
             />
             <label>Preço</label>
             <input

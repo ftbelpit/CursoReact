@@ -220,10 +220,10 @@ export const washerSlice = createSlice({
       state.success = true
       state.error = null
     
-      state.washer.assessments.push({
-        score: action.payload.score,
-        assessment: action.payload.assessment
-      });
+      state.washer.assessments.push(
+        action.payload.score,
+        action.payload.assessment
+      );
     
       state.message = action.payload.message;
     })    

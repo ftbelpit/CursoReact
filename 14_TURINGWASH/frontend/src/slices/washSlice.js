@@ -114,7 +114,7 @@ export const washSlice = createSlice({
       state.error = null
       state.wash = action.payload
       state.washes.unshift(state.wash)
-      state.message = "Lavagem cadastrada com sucesso!" 
+      state.message = "Lavagem agendada com sucesso!" 
     })
     .addCase(insertWash.rejected, (state, action) => {
       state.loading = false

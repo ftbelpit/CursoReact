@@ -19,6 +19,8 @@ const MyWashes = () => {
 
   const dispatch = useDispatch()
 
+  const currentDate = new Date();
+
   const { 
     // user, 
     loading } = useSelector((state) => state.user)
@@ -64,6 +66,8 @@ const MyWashes = () => {
         locale: ptBR,
       });
 
+      const washDateIsPast = washDate < currentDate; // Verifica se a data da lavagem é passada
+
         return (
           <div className="wash-card" key={wash._id}>
             <div className="wash-info">
@@ -76,18 +80,23 @@ const MyWashes = () => {
             </div>
             <div className="wash-price-date">
               <span className="wash-price">R$ {wash.washerPrice}</span>
-              <span className="wash-date">
-                
-              {dataFormatada}
+              <span className="wash-date">         
+                {washDateIsPast ? ( // Verifica se a data é passada
+                    dataFormatada
+                  ) : (
+                    <>
+                      <button
+                        className="delete-button"
+                        onClick={() => handleDelete(wash._id)}
+                      >
+                        Desmarcar lavagem
+                      </button>
+                      {dataFormatada}
+                    </>
+                  )}
               </span>
               
-            </div> 
-            {/* <div className="buttons">
-              <button className="delete-button" onClick={() => handleDelete(wash._id)}>
-                Excluir lavagem
-              </button>
-            </div> */}
-            
+            </div>
           </div>
         )
       })}
